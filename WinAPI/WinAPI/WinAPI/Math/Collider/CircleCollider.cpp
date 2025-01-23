@@ -2,30 +2,33 @@
 #include "CircleCollider.h"
 
 CircleCollider::CircleCollider(Vector center, float raidus)
-	: _center(center), _radius(raidus)
+	: Collider(center), _radius(raidus)
 {
-	_pens.push_back(CreatePen(1, 3, GREEN));
-	_pens.push_back(CreatePen(1, 3, RED));
+	SetGreen();
 }
 
 CircleCollider::~CircleCollider()
 {
-	for (auto& pen : _pens)
-		DeleteObject(pen);
 }
 
 void CircleCollider::Update()
 {
+
+
 }
 
 void CircleCollider::Render(HDC hdc)
 {
-	SelectObject(hdc, _pens[_curPen]);
+	vector<HPEN> pens = GetPens();
+	UINT curPen = GetCurPen();
+	SelectObject(hdc, pens[curPen]);
 
-	float left		= _center.x - _radius;
-	float right		= _center.x + _radius;
-	float top		= _center.y - _radius;
-	float bottom	= _center.y + _radius;
+	Vector center = GetCenter();
+
+	float left		= center.x - _radius;
+	float right		= center.x + _radius;
+	float top		= center.y - _radius;
+	float bottom	= center.y + _radius;
 
 	Ellipse(hdc, left, top, right, bottom);
 }
@@ -49,23 +52,24 @@ bool CircleCollider::IsCollision(shared_ptr<CircleCollider> other)
 
 bool CircleCollider::IsCollision(shared_ptr<RectCollider> other)
 {
-	Vector newHalfSize(other->GetHalfSize().x + _radius, other->GetHalfSize().y + _radius);
+	//Vector newHalfSize(other->GetHalfSize().x + _radius, other->GetHalfSize().y + _radius);
+	//Vector center = GetCenter();
 
-	float newLeft = _center.x - newHalfSize.x;
-	float newRight = _center.x + newHalfSize.x;
-	float newTop = _center.y - newHalfSize.y;
-	float newBottom = _center.y + newHalfSize.y;
+	//float newLeft = center.x - newHalfSize.x;
+	//float newRight = center.x + newHalfSize.x;
+	//float newTop = center.y - newHalfSize.y;
+	//float newBottom = center.y + newHalfSize.y;
 
-	Vector rectCenter = other->GetCenter();
-	Vector dir = rectCenter - _center;
+	//Vector rectCenter = other->GetCenter();
+	//Vector dir = rectCenter - center;
 
-	if (rectCenter.x >= newLeft && rectCenter.x <= newRight && rectCenter.y >= newTop && rectCenter.y <= newBottom)
-	{
-		if (dir.Length() <= other->GetHalfSize().Length() + _radius)
-		{
-			return true;
-		}
-	}
+	//if (rectCenter.x >= newLeft && rectCenter.x <= newRight && rectCenter.y >= newTop && rectCenter.y <= newBottom)
+	//{
+	//	if (dir.Length() <= other->GetHalfSize().Length() + _radius)
+	//	{
+	//		return true;
+	//	}
+	//}
 
-	return false;
+	return other->IsCollision(dynamic_pointer_cast<CircleCollider>(shared_from_this()));
 }

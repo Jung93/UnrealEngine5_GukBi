@@ -2,44 +2,42 @@
 #include "RectCollider.h"
 
 RectCollider::RectCollider(Vector center, Vector size)
-	:_center(center), _halfSize(size * 0.5f)
+	: Collider(center), _halfSize(size * 0.5f)
 {
-	_pens.push_back(CreatePen(1, 3, GREEN));
-	_pens.push_back(CreatePen(1, 3, RED));
 }
 
 RectCollider::~RectCollider()
 {
-	for (auto& pen : _pens)
-		DeleteObject(pen);
 }
 
 void RectCollider::Update()
 {
-	//_center = LERP(_center, mousePos, 0.03f);
 }
 
 void RectCollider::Render(HDC hdc)
 {
-	SelectObject(hdc, _pens[_curPen]);
+	vector<HPEN> pens = GetPens();
+	UINT curPen = GetCurPen();
+	SelectObject(hdc, pens[curPen]);
 
+	Vector center = GetCenter();
 
-
-	float left = _center.x - _halfSize.x;
-	float right = _center.x + _halfSize.x;
-	float top = _center.y - _halfSize.y;
-	float bottom = _center.y + _halfSize.y;
-
+	float left = center.x - _halfSize.x;
+	float right = center.x + _halfSize.x;
+	float top = center.y - _halfSize.y;
+	float bottom = center.y + _halfSize.y;
 
 	Rectangle(hdc, left, top, right, bottom);
 }
 
 bool RectCollider::IsCollision(const Vector& pos)
 {
-	float left = _center.x - _halfSize.x;
-	float right = _center.x + _halfSize.x;
-	float top = _center.y - _halfSize.y;
-	float bottom = _center.y + _halfSize.y;
+	Vector center = GetCenter();
+
+	float left = center.x - _halfSize.x;
+	float right = center.x + _halfSize.x;
+	float top = center.y - _halfSize.y;
+	float bottom = center.y + _halfSize.y;
 
 	if (pos.x >= left && pos.x <= right && pos.y >= top && pos.y <= bottom)
 		return true;
@@ -48,15 +46,17 @@ bool RectCollider::IsCollision(const Vector& pos)
 
 bool RectCollider::IsCollision(shared_ptr<RectCollider> other)
 {
-	float left = _center.x - _halfSize.x;
-	float right = _center.x + _halfSize.x;
-	float top = _center.y - _halfSize.y;
-	float bottom = _center.y + _halfSize.y;
+	Vector center = GetCenter();
 
-	float otherLeft = other->_center.x - other->_halfSize.x;
-	float otherRight = other->_center.x + other->_halfSize.x;
-	float otherTop = other->_center.y - other->_halfSize.y;
-	float otherBottom = other->_center.y + other->_halfSize.y;
+	float left = center.x - _halfSize.x;
+	float right = center.x + _halfSize.x;
+	float top = center.y - _halfSize.y;
+	float bottom = center.y + _halfSize.y;
+
+	float otherLeft = other->GetCenter().x - other->_halfSize.x;
+	float otherRight = other->GetCenter().x + other->_halfSize.x;
+	float otherTop = other->GetCenter().y - other->_halfSize.y;
+	float otherBottom = other->GetCenter().y + other->_halfSize.y;
 
 	if (otherLeft >= left && otherLeft <= right || otherRight >= left && otherRight <= right)
 	{
@@ -69,23 +69,45 @@ bool RectCollider::IsCollision(shared_ptr<RectCollider> other)
 
 bool RectCollider::IsCollision(shared_ptr<CircleCollider> other)
 {
-	Vector newHalfSize(_halfSize.x + other->GetRadius(), _halfSize.y + other->GetRadius());
-	
-	float newLeft = _center.x - newHalfSize.x;
-	float newRight = _center.x + newHalfSize.x;
-	float newTop = _center.y - newHalfSize.y;
-	float newBottom = _center.y + newHalfSize.y;
+	Vector dir = other->GetCenter() - GetCenter();
+	Vector rightV = Vector(1, 0);
+	Vector upV = Vector(0, -1);
 
-	Vector circleCenter = other->GetCenter();
-	Vector dir = circleCenter - _center;
+	//예외처리
+	if (dir.Length() > _halfSize.Length() + other->GetRadius())
+		return false;
 
-	if (circleCenter.x >= newLeft && circleCenter.x <= newRight && circleCenter.y >= newTop && circleCenter.y <= newBottom)
-	{
-		if (dir.Length() <= _halfSize.Length() + other->GetRadius())
-		{
-			return true;
-		}
-	}
 
-	return false;
+	//x축 내적
+	float lengthX = abs(rightV.Dot(dir));
+	if (lengthX > _halfSize.x + other->GetRadius())
+		return false;
+
+	//y축 내적
+	float lengthY = abs(upV.Dot(dir));
+	if (lengthY > _halfSize.y + other->GetRadius())
+		return false;
+
+	return true;
+
+
+	//Vector newHalfSize(_halfSize.x + other->GetRadius(), _halfSize.y + other->GetRadius());
+	//
+	//float newLeft = _center.x - newHalfSize.x;
+	//float newRight = _center.x + newHalfSize.x;
+	//float newTop = _center.y - newHalfSize.y;
+	//float newBottom = _center.y + newHalfSize.y;
+
+	//Vector circleCenter = other->GetCenter();
+	//Vector dir = circleCenter - _center;
+
+	//if (circleCenter.x >= newLeft && circleCenter.x <= newRight && circleCenter.y >= newTop && circleCenter.y <= newBottom)
+	//{
+	//	if (dir.Length() <= _halfSize.Length() + other->GetRadius())
+	//	{
+	//		return true;
+	//	}
+	//}
+
+	//return false;
 }

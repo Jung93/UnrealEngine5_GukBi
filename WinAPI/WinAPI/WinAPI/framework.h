@@ -25,6 +25,9 @@ using namespace std;
 
 
 #include "Math/Vector.h"
+#include "Math/Line.h"
+
+#include "Math/Collider/Collider.h"
 #include "Math/Collider/CircleCollider.h"
 #include "Math/Collider/RectCollider.h"
 

@@ -72,8 +72,20 @@ public:
 
 	void Noramlize()
 	{
-		// ����
+		float length = Length();
+		x /= length;
+		y /= length;
+
 	}
+
+	Vector NormalVector() const
+	{
+		Vector result = *this;
+		result.Noramlize();
+		return result;
+	
+	}
+
 
 	float Dot(const Vector& other) const
 	{
@@ -84,6 +96,7 @@ public:
 		return result;
 	}
 
+	//z값의 크기
 	float Cross(const Vector& other) const
 	{
 		float result;
