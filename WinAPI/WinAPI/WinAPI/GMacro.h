@@ -1,6 +1,10 @@
 #pragma once
+#include "Math/Vector.h"
 
 
+#define WIN_WIDTH 1366
+#define WIN_HEIGHT 768
+#define CENTER Vector(WIN_WIDTH, WIN_HEIGHT) * 0.5f
 
 
 #define PI 3.141592
