@@ -21,7 +21,20 @@ void Ball::Update()
 		|| _circle->GetCenter().y > WIN_HEIGHT || _circle->GetCenter().y < 0)
 		isActive = false;
 
-	AddForce(_ballDir + _gravity);
+	//중력
+	//AddForce(_ballDir + _gravity);
+
+
+	//마우스포인터로 유도
+	Vector newV = mousePos - _circle->GetCenter();
+	AddForce(newV.NormalVector());
+
+	if (_circle->IsCollision(mousePos))
+		isActive = false;
+
+
+	//진자운동
+	
 }
 
 void Ball::Render(HDC hdc)
