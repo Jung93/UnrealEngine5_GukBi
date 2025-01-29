@@ -21,7 +21,7 @@ public:
 	void SetGreen() { _curPen = 0; }
 	void SetRed() { _curPen = 1; }
 
-	Vector GetCenter() { return _center; }
+	Vector& GetCenter() { return _center; }
 	void SetCenter(const Vector& pos) { _center = pos; }
 
 	vector<HPEN> GetPens() { return _pens; }

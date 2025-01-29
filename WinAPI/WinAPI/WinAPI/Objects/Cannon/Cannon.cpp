@@ -102,9 +102,10 @@ void Cannon::Fire()
 		(*iter)->AddForce(_barrel->GetDir());
 
 		(*iter)->isActive = true;
+		//(*iter)->SetDir(_barrel->GetDir());
 
 		_delay = 0.0f;
-
+		(*iter)->InitGravity();
 	}
 
 }

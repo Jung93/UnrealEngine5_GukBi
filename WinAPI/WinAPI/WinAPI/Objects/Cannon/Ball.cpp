@@ -22,19 +22,30 @@ void Ball::Update()
 		isActive = false;
 
 	//중력
-	//AddForce(_ballDir + _gravity);
+	_gravity += 0.1f;
+	_circle->GetCenter() += _ballDir * _ballSpeed;
 
+	_circle->GetCenter().y += _gravity;
 
 	//마우스포인터로 유도
-	Vector newV = mousePos - _circle->GetCenter();
-	AddForce(newV.NormalVector());
+	//Vector newV = mousePos - _circle->GetCenter();
+	//AddForce(newV.NormalVector());
 
-	if (_circle->IsCollision(mousePos))
-		isActive = false;
+	//if (_circle->IsCollision(mousePos))
+	//	isActive = false;
 
 
 	//진자운동
-	
+	//test
+	//_deltaTime += 0.01f;
+
+	//Vector sinV;
+	//sinV.x = _ballDir.x;
+	//sinV.y = sin(_deltaTime * 10);
+	//sinV.x = sin(_deltaTime * 10);
+	//sinV.y = _ballDir.y;
+	//AddForce(_ballDir + sinV);
+
 }
 
 void Ball::Render(HDC hdc)
@@ -49,6 +60,5 @@ void Ball::AddForce(Vector v)
 {
 	//if (isActive == false) return;
 
-	_ballDir = v;
-	_circle->SetCenter(_circle->GetCenter() + _ballDir * _ballSpeed);
+	_circle->SetCenter(_circle->GetCenter() + v * _ballSpeed);
 }
