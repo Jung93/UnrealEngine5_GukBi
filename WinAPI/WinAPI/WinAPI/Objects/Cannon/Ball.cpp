@@ -60,5 +60,9 @@ void Ball::AddForce(Vector v)
 {
 	//if (isActive == false) return;
 
-	_circle->SetCenter(_circle->GetCenter() + v * _ballSpeed);
+	//_circle->SetCenter(_circle->GetCenter() + v * _ballSpeed);
+	SetDir(v);
+
+
+
 }
