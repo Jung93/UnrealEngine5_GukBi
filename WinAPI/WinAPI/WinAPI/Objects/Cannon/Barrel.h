@@ -18,7 +18,6 @@ public:
 
 	Vector GetMuzzle() { return _barrel->end; }
 
-
 private:
 	weak_ptr<CircleCollider> _cannonBody;
 	shared_ptr<Line> _barrel;

@@ -15,7 +15,8 @@ public:
 	void AddForce(Vector v);
 	void SetDir(Vector dir) { _ballDir = dir.NormalVector(); }
 	//void SetDir(Vector v) { _ballDir = v; }
-	void DeActive(shared_ptr<CircleCollider> enemy = nullptr);
+	bool DeActiveByHit(shared_ptr<CircleCollider> enemy = nullptr);
+	bool DeActiveByMiss();
 
 	void InitGravity() { _gravity = 0.0f; }
 	bool isActive = false;

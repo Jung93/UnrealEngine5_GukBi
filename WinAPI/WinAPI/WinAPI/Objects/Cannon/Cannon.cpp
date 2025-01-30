@@ -4,6 +4,7 @@
 #include "Ball.h"
 
 Cannon::Cannon()
+	:_hp(3)
 {
 	_speed = 10.0f;
 
@@ -15,12 +16,11 @@ Cannon::Cannon()
 	{
 		shared_ptr<Ball> ball = make_shared<Ball>();
 		_balls.push_back(ball);
-
 	}
-
 }
 
 Cannon::Cannon(Vector vec, float size)
+	:_hp(3)
 {
 	_speed = 10.0f;
 
@@ -32,7 +32,6 @@ Cannon::Cannon(Vector vec, float size)
 	{
 		shared_ptr<Ball> ball = make_shared<Ball>();
 		_balls.push_back(ball);
-
 	}
 }
 
@@ -42,6 +41,9 @@ Cannon::~Cannon()
 
 void Cannon::Update()
 {
+	if (IsDead())
+		return;
+
 	_body->Update();
 	_barrel->Update();
 
@@ -49,12 +51,9 @@ void Cannon::Update()
 	{
 		ball->Update();
 		IsHited(ball);
-
 	}
 
 	_delay += 0.1f;
-
-
 
 	Fire();
 	Move();
@@ -62,6 +61,9 @@ void Cannon::Update()
 
 void Cannon::Render(HDC hdc)
 {
+	if (IsDead())
+		return;
+
 	_barrel->Render(hdc);
 	_body->Render(hdc);
 
@@ -79,6 +81,7 @@ void Cannon::Move()
 		{
 			_body->SetCenter(_body->GetCenter() + Vector(-1, 0) * _speed);
 		}
+
 		if (GetKeyState('D') & 0x8000)
 		{
 			_body->SetCenter(_body->GetCenter() + Vector(1, 0) * _speed);
@@ -86,24 +89,20 @@ void Cannon::Move()
 
 		if (GetKeyState('W') & 0x8000)
 		{
-
 			_barrel->SetAngle(_barrel->GetAngle() - 0.1f);
-
 		}
+
 		if (GetKeyState('S') & 0x8000)
 		{
 			_barrel->SetAngle(_barrel->GetAngle() + 0.1f);
-
 		}
 	}
 }
 
 void Cannon::Fire()
 {
-
 	if (_delay < _attackSpeed)
 		return;
-
 
 	auto iter = find_if(_balls.begin(), _balls.end(), [](shared_ptr<Ball> ball)-> bool
 		{
@@ -113,7 +112,6 @@ void Cannon::Fire()
 		});
 
 	if (iter == _balls.end()) return;
-
 
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
@@ -132,13 +130,28 @@ void Cannon::Fire()
 
 bool Cannon::IsHited(shared_ptr<Ball> ball)
 {
-
 	if (ball != nullptr && _body->IsCollision(ball->GetCircle()))
 	{
-		ball->DeActive(_body);
+		ball->DeActiveByHit(_body);
+		--_hp;
 		return true;
 	}
 	return false;
+}
+
+bool Cannon::IsMissed(shared_ptr<Ball> ball)
+{
+	if (ball != nullptr && ball->DeActiveByMiss())
+	{
+		return true;
+	}
+	return false;
+
+}
+
+bool Cannon::IsDead()
+{
+	return _hp <= 0;
 }
 
 shared_ptr<Ball> Cannon::GetBall()

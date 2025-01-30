@@ -17,7 +17,7 @@ void Ball::Update()
 	_circle->Update();
 
 
-	DeActive();
+	//DeActive();
 
 	//ม฿ทย
 	_gravity += 0.1f;
@@ -65,15 +65,26 @@ void Ball::AddForce(Vector v)
 
 }
 
-void Ball::DeActive(shared_ptr<CircleCollider> enemy)
+bool Ball::DeActiveByHit(shared_ptr<CircleCollider> enemy)
 {
-
-	if (enemy != nullptr && _circle->IsCollision(enemy)) 
+	if (enemy != nullptr && _circle->IsCollision(enemy))
+	{
 		isActive = false;
+		return true;
+	}
 
+	return false;
+}
 
+bool Ball::DeActiveByMiss()
+{
 	if (_circle->GetCenter().x > WIN_WIDTH || _circle->GetCenter().x < 0
 		|| _circle->GetCenter().y > WIN_HEIGHT || _circle->GetCenter().y < 0)
+	{
 		isActive = false;
+		return true;
+	}
+
+	return false;
 }
 

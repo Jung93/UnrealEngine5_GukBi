@@ -16,6 +16,8 @@ public:
 	void Fire();
 
 	bool IsHited(shared_ptr<Ball> ball);
+	bool IsDead();
+	bool IsMissed(shared_ptr<Ball> ball);
 
 	shared_ptr<CircleCollider> GetCollider() { return _body; }
 	shared_ptr<Ball> GetBall();
@@ -36,5 +38,7 @@ private:
 	const float _attackSpeed = 3.0f;
 	Vector _gravity = Vector(0, 1);
 	bool _isFired = false;
+	int _hp;
+
 };
 
