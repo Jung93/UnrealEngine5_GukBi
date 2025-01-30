@@ -151,6 +151,22 @@ void Cannon::Fire()
 
 bool Cannon::IsHited(shared_ptr<Ball> ball)
 {
+
+	auto iter = find_if(_balls.begin(), _balls.end(), [](shared_ptr<Ball> ball)-> bool
+		{
+			if (ball->isActive == true)
+				return true;
+			return false;
+		});
+
+	if (iter != _balls.end())
+	{
+		if (*iter == ball)
+			return false;
+
+	}
+
+
 	if (ball != nullptr && ball->isActive == true && _body->IsCollision(ball->GetCircle()))
 	{
 		ball->DeActiveByHit(dynamic_pointer_cast<CircleCollider>(_body));
