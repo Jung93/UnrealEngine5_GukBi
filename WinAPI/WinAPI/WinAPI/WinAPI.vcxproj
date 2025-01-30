@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\FortressScene.h" />
     <ClInclude Include="Objects\Cannon\Ball.h" />
     <ClInclude Include="Objects\Cannon\Barrel.h" />
     <ClInclude Include="Objects\Cannon\Cannon.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scene\FortressScene.cpp" />
     <ClCompile Include="Objects\Cannon\Ball.cpp" />
     <ClCompile Include="Objects\Cannon\Barrel.cpp" />
     <ClCompile Include="Objects\Cannon\Cannon.cpp" />

@@ -20,6 +20,22 @@ Cannon::Cannon()
 
 }
 
+Cannon::Cannon(Vector vec, float size)
+{
+	_speed = 10.0f;
+
+	_body = make_shared<CircleCollider>(vec, size);
+	_barrel = make_shared<Barrel>(_body);
+
+	_poolCount = 10;
+	for (int i = 0; i < _poolCount;i++)
+	{
+		shared_ptr<Ball> ball = make_shared<Ball>();
+		_balls.push_back(ball);
+
+	}
+}
+
 Cannon::~Cannon()
 {
 }
@@ -32,10 +48,11 @@ void Cannon::Update()
 	for (auto ball : _balls)
 	{
 		ball->Update();
+		IsHited(ball);
+
 	}
 
 	_delay += 0.1f;
-
 
 
 
@@ -56,27 +73,29 @@ void Cannon::Render(HDC hdc)
 
 void Cannon::Move()
 {
-	if (GetKeyState('A') & 0x8000)
+	if (_isFired == false)
 	{
-		_body->SetCenter(_body->GetCenter() + Vector(-1, 0) * _speed);
+		if (GetKeyState('A') & 0x8000)
+		{
+			_body->SetCenter(_body->GetCenter() + Vector(-1, 0) * _speed);
+		}
+		if (GetKeyState('D') & 0x8000)
+		{
+			_body->SetCenter(_body->GetCenter() + Vector(1, 0) * _speed);
+		}
+
+		if (GetKeyState('W') & 0x8000)
+		{
+
+			_barrel->SetAngle(_barrel->GetAngle() - 0.1f);
+
+		}
+		if (GetKeyState('S') & 0x8000)
+		{
+			_barrel->SetAngle(_barrel->GetAngle() + 0.1f);
+
+		}
 	}
-	if (GetKeyState('D') & 0x8000)
-	{
-		_body->SetCenter(_body->GetCenter() + Vector(1, 0) * _speed);
-	}
-
-	if (GetKeyState('W') & 0x8000)
-	{
-
-		_barrel->SetAngle(_barrel->GetAngle() - 0.1f);
-
-	}
-	if (GetKeyState('S') & 0x8000)
-	{
-		_barrel->SetAngle(_barrel->GetAngle() + 0.1f);
-
-	}
-
 }
 
 void Cannon::Fire()
@@ -106,6 +125,35 @@ void Cannon::Fire()
 
 		_delay = 0.0f;
 		(*iter)->InitGravity();
+		_isFired == true;
 	}
+
+}
+
+bool Cannon::IsHited(shared_ptr<Ball> ball)
+{
+
+	if (ball != nullptr && _body->IsCollision(ball->GetCircle()))
+	{
+		ball->DeActive(_body);
+		return true;
+	}
+	return false;
+}
+
+shared_ptr<Ball> Cannon::GetBall()
+{
+	auto iter = find_if(_balls.begin(), _balls.end(), [](shared_ptr<Ball> ball)-> bool
+		{
+			if (ball->isActive == true)
+				return true;
+			return false;
+		});
+
+	if (iter == _balls.end())
+		return nullptr;
+
+	return (*iter);
+
 
 }

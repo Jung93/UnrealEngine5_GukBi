@@ -6,6 +6,7 @@ class Cannon : public enable_shared_from_this<Cannon>
 {
 public:
 	Cannon();
+	Cannon(Vector vec, float size);
 	~Cannon();
 
 	void Update();
@@ -14,7 +15,11 @@ public:
 	void Move();
 	void Fire();
 
+	bool IsHited(shared_ptr<Ball> ball);
+
 	shared_ptr<CircleCollider> GetCollider() { return _body; }
+	shared_ptr<Ball> GetBall();
+
 
 private:
 	shared_ptr<CircleCollider> _body;
@@ -30,6 +35,6 @@ private:
 	float _delay = 0.0f;
 	const float _attackSpeed = 3.0f;
 	Vector _gravity = Vector(0, 1);
-
+	bool _isFired = false;
 };
 
