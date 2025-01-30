@@ -17,6 +17,7 @@ FortressScene::~FortressScene()
 
 void FortressScene::Update()
 {
+
 	if(isTurn == false)
 		_cannon1->Update();
 	else if(isTurn)

@@ -9,7 +9,7 @@ Cannon::Cannon()
 	_speed = 10.0f;
 
 	_body = make_shared<CircleCollider>(CENTER, 50);
-	_barrel = make_shared<Barrel>(_body);
+	_barrel = make_shared<Barrel>(dynamic_pointer_cast<CircleCollider>(_body));
 
 	_poolCount = 10;
 	for (int i = 0; i < _poolCount;i++)
@@ -25,7 +25,7 @@ Cannon::Cannon(Vector vec, float size)
 	_speed = 10.0f;
 
 	_body = make_shared<CircleCollider>(vec, size);
-	_barrel = make_shared<Barrel>(_body);
+	_barrel = make_shared<Barrel>(dynamic_pointer_cast<CircleCollider>(_body));
 
 	_poolCount = 10;
 	for (int i = 0; i < _poolCount;i++)
@@ -33,6 +33,14 @@ Cannon::Cannon(Vector vec, float size)
 		shared_ptr<Ball> ball = make_shared<Ball>();
 		_balls.push_back(ball);
 	}
+
+
+	for (int i = 0; i < _hp; i++)
+	{
+		shared_ptr<RectCollider> hpBar = make_shared<RectCollider>(_body->GetCenter() + Vector(-30 + i*30, 100), Vector(30, 50));
+		_hpBar.push_back(hpBar);
+	}
+
 }
 
 Cannon::~Cannon()
@@ -46,6 +54,14 @@ void Cannon::Update()
 
 	_body->Update();
 	_barrel->Update();
+
+	for (int i = 0; i < _hpBar.size();i++)
+	{
+		_hpBar[i]->SetCenter(_body->GetCenter() + Vector(-30 + i * 30, 100));
+
+		_hpBar[i]->Update();
+	}
+
 
 	for (auto ball : _balls)
 	{
@@ -70,6 +86,11 @@ void Cannon::Render(HDC hdc)
 	for (auto ball : _balls)
 	{
 		ball->Render(hdc);
+	}
+
+	for (auto hp : _hpBar)
+	{
+		hp->Render(hdc);
 	}
 }
 
@@ -130,10 +151,14 @@ void Cannon::Fire()
 
 bool Cannon::IsHited(shared_ptr<Ball> ball)
 {
-	if (ball != nullptr && _body->IsCollision(ball->GetCircle()))
+	if (ball != nullptr && ball->isActive == true && _body->IsCollision(ball->GetCircle()))
 	{
-		ball->DeActiveByHit(_body);
+		ball->DeActiveByHit(dynamic_pointer_cast<CircleCollider>(_body));
 		--_hp;
+
+		_hpBar[_hp]->SetBrushRed();
+		_hpBar[_hp]->SetRed();
+
 		return true;
 	}
 	return false;

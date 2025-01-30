@@ -19,18 +19,21 @@ public:
 	bool IsDead();
 	bool IsMissed(shared_ptr<Ball> ball);
 
-	shared_ptr<CircleCollider> GetCollider() { return _body; }
+	shared_ptr<Collider> GetCollider() { return _body; }
 	shared_ptr<Ball> GetBall();
 
 
 private:
-	shared_ptr<CircleCollider> _body;
+	shared_ptr<Collider> _body;
 	shared_ptr<Barrel> _barrel;
 
 	//object pooling
 	vector<shared_ptr<Ball>> _balls;
 	//Vector _ballDir;
 	
+	vector<shared_ptr<Collider>> _hpBar;
+
+
 	int _poolCount;
 	float _speed;
 

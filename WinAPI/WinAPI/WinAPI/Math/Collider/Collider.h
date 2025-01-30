@@ -21,15 +21,26 @@ public:
 	void SetGreen() { _curPen = 0; }
 	void SetRed() { _curPen = 1; }
 
+	void SetBrushGreen() { _curBrush = 0; };
+	void SetBrushRed() { _curBrush = 1; };
+
+
 	Vector& GetCenter() { return _center; }
 	void SetCenter(const Vector& pos) { _center = pos; }
 
 	vector<HPEN> GetPens() { return _pens; }
 	UINT GetCurPen() { return _curPen; }
 
+	vector<HBRUSH> GetBrushes() { return _brushes; }
+	UINT GetCurBrush() { return _curBrush; }
+
 private:
 	UINT			_curPen = 0;
 	vector<HPEN>	_pens;
+
+	UINT _curBrush = 0;
+	vector<HBRUSH> _brushes;
+
 
 	Vector _center;
 
