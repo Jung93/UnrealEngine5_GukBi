@@ -27,7 +27,7 @@ Cannon::Cannon(Vector vec, float size)
 	_body = make_shared<CircleCollider>(vec, size);
 	_barrel = make_shared<Barrel>(dynamic_pointer_cast<CircleCollider>(_body));
 
-	_poolCount = 10;
+	_poolCount = 1;
 	for (int i = 0; i < _poolCount;i++)
 	{
 		shared_ptr<Ball> ball = make_shared<Ball>();
@@ -137,13 +137,14 @@ void Cannon::Fire()
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
 		(*iter)->SetPos(_barrel->GetMuzzle());
-		(*iter)->AddForce(_barrel->GetDir());
+		(*iter)->AddVector(_barrel->GetDir());
 
 		(*iter)->isActive = true;
 		//(*iter)->SetDir(_barrel->GetDir());
 
 		_delay = 0.0f;
 		(*iter)->InitGravity();
+		(*iter)->SetDir(_barrel->GetDir());
 		_isFired == true;
 	}
 
@@ -172,8 +173,8 @@ bool Cannon::IsHited(shared_ptr<Ball> ball)
 		ball->DeActiveByHit(dynamic_pointer_cast<CircleCollider>(_body));
 		--_hp;
 
-		_hpBar[_hp]->SetBrushRed();
-		_hpBar[_hp]->SetRed();
+		//_hpBar[_hp]->SetBrushRed();
+		//_hpBar[_hp]->SetRed();
 
 		return true;
 	}

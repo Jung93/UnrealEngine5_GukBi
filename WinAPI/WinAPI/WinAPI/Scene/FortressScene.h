@@ -18,5 +18,7 @@ private:
 	shared_ptr<Cannon> _cannon1;
 	shared_ptr<Cannon> _cannon2;
 
+	shared_ptr<RectCollider> _wall;
+
 };
 
