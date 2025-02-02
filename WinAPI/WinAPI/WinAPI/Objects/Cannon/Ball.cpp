@@ -26,39 +26,25 @@ void Ball::Update()
 
 	//마우스포인터로 유도
 	//Vector newV = mousePos - _circle->GetCenter();
-	//AddForce(newV.NormalVector());
+	//AddVector(newV.NormalVector());
 
 	//if (_circle->IsCollision(mousePos))
 	//	isActive = false;
 
 
 	//진자운동
-	//test
-	_deltaTime += 0.05f;
+	_deltaTime += 0.05f; 
 
-	Vector sinVec = Vector(_ballDir.x, _ballSpeed * -sin(_deltaTime * _ballSpeed));
-	//_circle->GetCenter() += _ballDir * _ballSpeed;
-	//_circle->GetCenter().y += (_ballSpeed * -sin(_deltaTime * _ballSpeed));
-	//_circle->GetCenter().x += (_ballDir.x);
+	Vector forwardMove = _ballDir * 2.0f;
+	Vector sinVec = Vector(0, _ballSpeed * -sin(_deltaTime * _ballSpeed));
 
+	float cosSeta = _ballDir.x;
+	float sinSeta = _ballDir.y;
 
+	Vector rotatedSinVec = Vector(sinVec.y * sinSeta, -sinVec.y * cosSeta);
+	Vector totalMove = forwardMove + rotatedSinVec;
 
-	float cosSeta = abs(_ballDir.Dot(_initDir));
-	float sinSeta = _ballDir.Cross(_initDir);
-
-	Vector sinVec2 = Vector(sinVec.x * cosSeta - sinVec.y * sinSeta, sinVec.y * cosSeta + sinVec.x * sinSeta);
-	//sinVec.x = sinVec.x * cosSeta - sinVec.y * sinSeta;
-	//sinVec.y = sinVec.y * cosSeta + sinVec.x * sinSeta;
-
-	_circle->GetCenter() += sinVec2;
-
-	//_circle->GetCenter() += sinVec;
-	//_circle->GetCenter().x += sinVec.x * (cos(_deltaTime * _ballSpeed)) - sinVec.y * sin(_deltaTime * _ballSpeed);
-	//_circle->GetCenter().y += sinVec.y * (cos(_deltaTime * _ballSpeed)) + sinVec.x * cos(_deltaTime * _ballSpeed);
-
-	//_circle->GetCenter() += Vector(0, sin(_deltaTime));
-
-
+	_circle->GetCenter() += totalMove;
 }
 
 void Ball::Render(HDC hdc)
