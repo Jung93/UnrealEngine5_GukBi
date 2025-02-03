@@ -28,23 +28,41 @@ void Ball::Update()
 	//Vector newV = mousePos - _circle->GetCenter();
 	//AddVector(newV.NormalVector());
 
+	Vector guided = mousePos - _circle->GetCenter();
+	float cross = _ballDir.Cross(guided);
+
+	if (abs(cross) < 0.01)
+	{
+	}
+	else if (cross < 0.0f)
+	{
+		_ballDir.Rotate(-0.01f);
+	}
+	else
+	{
+		_ballDir.Rotate(0.01f);
+	}
+
+	_circle->GetCenter() += _ballDir;
+
+
 	//if (_circle->IsCollision(mousePos))
 	//	isActive = false;
 
 
 	//진자운동
-	_deltaTime += 0.05f; 
+	//_deltaTime += 0.05f; 
 
-	Vector forwardMove = _ballDir * 2.0f;
-	Vector sinVec = Vector(0, _ballSpeed * -sin(_deltaTime * _ballSpeed));
+	//Vector forwardVec = _ballDir * 2.0f;
+	//Vector sinVec = Vector(0, _ballSpeed * -sin(_deltaTime * _ballSpeed));
 
-	float cosSeta = _ballDir.x;
-	float sinSeta = _ballDir.y;
+	//float cosSeta = _ballDir.x;
+	//float sinSeta = _ballDir.y;
 
-	Vector rotatedSinVec = Vector(sinVec.y * sinSeta, -sinVec.y * cosSeta);
-	Vector totalMove = forwardMove + rotatedSinVec;
+	//Vector rotatedSinVec = Vector(sinVec.y * sinSeta, -sinVec.y * cosSeta);
+	//Vector totalMove = forwardVec + rotatedSinVec;
 
-	_circle->GetCenter() += totalMove;
+	//_circle->GetCenter() += totalMove;
 }
 
 void Ball::Render(HDC hdc)

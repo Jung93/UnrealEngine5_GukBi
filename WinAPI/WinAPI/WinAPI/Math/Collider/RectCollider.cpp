@@ -19,11 +19,11 @@ void RectCollider::Render(HDC hdc)
 	vector<HPEN> pens = GetPens();
 	UINT curPen = GetCurPen();
 
-	vector<HBRUSH> brushes = GetBrushes();
-	UINT curBrush = GetCurBrush();
+	//vector<HBRUSH> brushes = GetBrushes();
+	//UINT curBrush = GetCurBrush();
 
 	SelectObject(hdc, pens[curPen]);
-	SelectObject(hdc, brushes[curBrush]);
+	//SelectObject(hdc, brushes[curBrush]);
 
 
 
