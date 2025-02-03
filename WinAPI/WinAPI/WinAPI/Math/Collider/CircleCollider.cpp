@@ -4,7 +4,7 @@
 CircleCollider::CircleCollider(Vector center, float raidus)
 	: Collider(center), _radius(raidus)
 {
-	SetGreen();
+	//SetGreen();
 }
 
 CircleCollider::~CircleCollider()

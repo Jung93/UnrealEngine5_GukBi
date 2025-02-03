@@ -4,7 +4,7 @@ class CircleCollider : public Collider
 {
 public:
 	CircleCollider(Vector center, float raidus);
-	~CircleCollider();
+	virtual ~CircleCollider();
 
 
 	virtual void Update() override;

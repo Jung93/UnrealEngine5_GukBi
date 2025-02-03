@@ -16,7 +16,19 @@ void Ball::Update()
 
 	_circle->Update();
 
-	DeActiveByMiss();
+	//DeActiveByMiss();
+
+	_deltaTime += _ballDir.Length();
+	//_circle->GetCenter() += _ballDir * _ballSpeed;
+
+	_circle->SetCenter(_circle->GetCenter() + _ballDir * _ballSpeed);
+
+	Vector center = _circle->GetCenter();
+	if (center.x < 0 || center.x > WIN_WIDTH)
+		_ballDir.x *= -1;
+	if (center.y < 0 || center.y > WIN_HEIGHT)
+		_ballDir.y *= -1;
+
 	//DeActive();
 
 	//중력
@@ -25,26 +37,22 @@ void Ball::Update()
 	//_circle->GetCenter().y += _gravity;
 
 	//마우스포인터로 유도
-	//Vector newV = mousePos - _circle->GetCenter();
-	//AddVector(newV.NormalVector());
+	//Vector guided = mousePos - _circle->GetCenter();
+	//float cross = _ballDir.Cross(guided);
 
-	Vector guided = mousePos - _circle->GetCenter();
-	float cross = _ballDir.Cross(guided);
+	//if (abs(cross) < 0.01)
+	//{
+	//}
+	//else if (cross < 0.0f)
+	//{
+	//	_ballDir.Rotate(-0.01f);
+	//}
+	//else
+	//{
+	//	_ballDir.Rotate(0.01f);
+	//}
 
-	if (abs(cross) < 0.01)
-	{
-	}
-	else if (cross < 0.0f)
-	{
-		_ballDir.Rotate(-0.01f);
-	}
-	else
-	{
-		_ballDir.Rotate(0.01f);
-	}
-
-	_circle->GetCenter() += _ballDir;
-
+	//_circle->GetCenter() += _ballDir;
 
 	//if (_circle->IsCollision(mousePos))
 	//	isActive = false;

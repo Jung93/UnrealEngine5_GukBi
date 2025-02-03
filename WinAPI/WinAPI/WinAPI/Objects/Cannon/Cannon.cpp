@@ -183,10 +183,10 @@ bool Cannon::IsHited(shared_ptr<Ball> ball)
 
 bool Cannon::IsMissed(shared_ptr<Ball> ball)
 {
-	if (ball != nullptr && ball->DeActiveByMiss())
-	{
-		return true;
-	}
+	//if (ball != nullptr && ball->DeActiveByMiss())
+	//{
+	//	return true;
+	//}
 	return false;
 
 }

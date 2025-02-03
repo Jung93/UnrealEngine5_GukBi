@@ -7,6 +7,8 @@
 #include "Scene/LineCollisionScene.h"
 #include "Scene/CannonScene.h"
 #include "Scene/FortressScene.h"
+#include "Scene/MazeScene.h"
+#include "Scene/ArkanoidScene.h"
 
 HDC Program::backbuffer = nullptr;
 
@@ -17,7 +19,9 @@ Program::Program()
 	//_scene = make_shared<LineScene>();
 	//_scene = make_shared<LineCollisionScene>();
 	//_scene = make_shared<CannonScene>();
-	_scene = make_shared<FortressScene>();
+	//_scene = make_shared<FortressScene>();
+	//_scene = make_shared<MazeScene>();
+	_scene = make_shared<ArkanoidScene>();
 
 	HDC hdc = GetDC(hWnd);
 
@@ -39,7 +43,7 @@ void Program::Render(HDC hdc)
 {
 	_scene->Render(hdc);
 
-	PatBlt(backbuffer, 0, 0, WIN_WIDTH, WIN_HEIGHT, BLACKNESS);
+	PatBlt(backbuffer, 0, 0, WIN_WIDTH, WIN_HEIGHT, WHITE);
 
 	_scene->Render(backbuffer);
 

@@ -18,8 +18,8 @@ public:
 	virtual bool IsCollision(shared_ptr<CircleCollider> other) abstract;
 	virtual bool IsCollision(shared_ptr<class RectCollider> other) abstract;
 
-	void SetGreen() { _curPen = 0; }
-	void SetRed() { _curPen = 1; }
+	void SetGreen() { _curPen = 1; }
+	void SetRed() { _curPen = 2; }
 
 	void SetBrushGreen() { _curBrush = 0; };
 	void SetBrushRed() { _curBrush = 1; };
