@@ -5,11 +5,9 @@ public:
 	ArkanoidBlock();
 	~ArkanoidBlock();
 
-
 	enum class Type
 	{
-		NONE,
-		BAR,
+		NONE = 1,
 		BLOCKS,
 
 		TYPE_COUNT
@@ -21,12 +19,14 @@ public:
 	void SetBlockType(ArkanoidBlock::Type type) { _curType = type; }
 	ArkanoidBlock::Type GetBlockType() { return _curType; }
 
-	void Move();
+	virtual bool IsCollision(shared_ptr<CircleCollider> other) override;
 
+	void DeActive() { isLive = false; };
+	bool isLive = true;
 
 private:
 	vector<HBRUSH> _brushes;
 	ArkanoidBlock::Type _curType = Type::NONE;
-	float _speed = 5.0f;
+
 };
 

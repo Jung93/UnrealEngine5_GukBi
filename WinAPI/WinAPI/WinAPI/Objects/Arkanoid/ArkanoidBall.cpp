@@ -23,3 +23,9 @@ void ArkanoidBall::Render(HDC hdc)
 	CircleCollider::Render(hdc);
 
 }
+
+void ArkanoidBall::IsConflict()
+{
+
+
+}

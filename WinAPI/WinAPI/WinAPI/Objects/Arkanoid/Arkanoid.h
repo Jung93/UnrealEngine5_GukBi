@@ -1,5 +1,6 @@
 #pragma once
 
+class ArkanoidPlayer;
 class ArkanoidBlock;
 class ArkanoidBall;
 
@@ -15,7 +16,7 @@ public:
 	void Fire();
 
 private:
-	shared_ptr<ArkanoidBlock> _bar;
+	shared_ptr<ArkanoidPlayer> _player;
 	vector<vector<shared_ptr<ArkanoidBlock>>> _blocks;
 	shared_ptr<ArkanoidBall> _ball;
 

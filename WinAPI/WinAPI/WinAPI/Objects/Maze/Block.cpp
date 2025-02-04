@@ -7,10 +7,17 @@ Block::Block()
 	_brushes.push_back(CreateSolidBrush(BLACK));
 	_brushes.push_back(CreateSolidBrush(GREEN));
 	_brushes.push_back(CreateSolidBrush(RED));
+	_brushes.push_back(CreateSolidBrush(BLACK));
+	_brushes.push_back(CreateSolidBrush(RGB(101, 3, 62)));
+	_brushes.push_back(CreateSolidBrush(RGB(53, 13, 162)));
+
 }
 
 Block::~Block()
 {
+	for (auto brush : _brushes)
+		DeleteObject(brush);
+
 }
 
 void Block::Update()

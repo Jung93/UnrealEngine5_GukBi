@@ -7,6 +7,9 @@ public:
 		NONE,
 		ABLE,
 		BLOCKED,
+		PLAYER,
+		FOOTPRINT,
+		SEARCHED,
 
 		TYPE_COUNT
 	};

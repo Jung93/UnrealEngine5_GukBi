@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "Arkanoid.h"
 
+#include "ArkanoidPlayer.h"
 #include "ArkanoidBlock.h"
 #include "ArkanoidBall.h"
 
@@ -9,11 +10,10 @@ Arkanoid::Arkanoid()
 
 	Vector offset = Vector(600, 600);
 
-	_bar = make_shared<ArkanoidBlock>();
+	_player = make_shared<ArkanoidPlayer>();
 
-	_bar->SetCenter(offset);
-	_bar->SetBlockType(ArkanoidBlock::Type::BAR);
-	_bar->SetGreen();
+	_player->SetCenter(offset);
+	_player->SetGreen();
 
 	Vector blockOffset = Vector(300, 200);
 
@@ -33,6 +33,7 @@ Arkanoid::Arkanoid()
 
 
 			_blocks[y].push_back(block);
+			_blocks[y][x]->SetRed();
 		}
 	}
 
@@ -46,39 +47,53 @@ Arkanoid::~Arkanoid()
 
 void Arkanoid::Update()
 {
-	_bar->Update();
+	_player->Update();
 
 	for (auto blockV : _blocks)
 	{
 		for (auto block : blockV)
 		{
-			block->Update();
+
+			if (block->IsCollision(_ball) == true) 
+			{
+				block->DeActive();
+				
+
+			}
+
+			if(block->isLive)
+				block->Update();
 		}
 	}
 
 	_ball->Update();
+	
 
 	if (isFired == false)
 	{
-		_ball->SetCenter(Vector(_bar->GetCenter().x, _bar->GetCenter().y - 20));
+		_ball->SetCenter(Vector(_player->GetCenter().x, _player->GetCenter().y - 20));
 		Fire();
 	}
 	else 
 	{
 		_ball->SetCenter(_ball->GetCenter() + Vector(0, -1));
 	}
+
+
+
 }	
 
 void Arkanoid::Render(HDC hdc)
 {
 
-	_bar->Render(hdc);
+	_player->Render(hdc);
 
 	for (auto blockV : _blocks)
 	{
 		for (auto block : blockV)
 		{
-			block->Render(hdc);
+			if (block->isLive)
+				block->Render(hdc);
 		}
 	}
 	_ball->Render(hdc);

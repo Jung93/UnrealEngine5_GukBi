@@ -7,6 +7,10 @@ Collider::Collider(Vector center)
 	_pens.push_back(CreatePen(1, 3, BLACK));
 	_pens.push_back(CreatePen(1, 3, GREEN));
 	_pens.push_back(CreatePen(1, 3, RED));
+	_pens.push_back(CreatePen(1, 3, BLACK));
+	_pens.push_back(CreatePen(1, 3, RGB(101, 3, 62)));
+	_pens.push_back(CreatePen(1, 3, RGB(53, 13, 162)));
+
 
 	_brushes.push_back(CreateSolidBrush(GREEN));
 	_brushes.push_back(CreateSolidBrush(RED));

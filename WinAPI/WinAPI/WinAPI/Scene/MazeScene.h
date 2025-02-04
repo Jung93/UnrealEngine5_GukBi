@@ -1,5 +1,6 @@
 #pragma once
 class Maze;
+class Player;
 
 class MazeScene : public Scene
 {
@@ -12,6 +13,7 @@ public:
 
 private:
 	shared_ptr<Maze> _maze;
+	shared_ptr<Player> _mazePlayer;
 
 };
 

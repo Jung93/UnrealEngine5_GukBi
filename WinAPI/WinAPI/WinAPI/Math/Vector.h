@@ -69,6 +69,11 @@ public:
 		return false;
 	}
 
+	bool operator!=(const Vector& other)
+	{
+		return !this->operator==(other);
+	}
+
 	float Length() const
 	{
 		return sqrtf(this->x * this->x + this->y * this->y);
