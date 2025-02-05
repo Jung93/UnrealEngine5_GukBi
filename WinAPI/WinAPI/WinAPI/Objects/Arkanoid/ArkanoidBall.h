@@ -1,4 +1,7 @@
 #pragma once
+
+class ArkanoidBlock;
+
 class ArkanoidBall : public CircleCollider
 {
 public:
@@ -8,7 +11,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-	void IsConflict();
+	void IsCollison(shared_ptr<ArkanoidBlock> block);
 
 	Vector GetDir() { return _ballDir; }
 	void SetDir(Vector dir) { _ballDir = dir; }

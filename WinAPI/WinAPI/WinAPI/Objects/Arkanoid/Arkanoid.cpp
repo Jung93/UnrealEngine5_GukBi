@@ -7,7 +7,6 @@
 
 Arkanoid::Arkanoid()
 {
-
 	Vector offset = Vector(600, 600);
 
 	_player = make_shared<ArkanoidPlayer>();
@@ -31,14 +30,12 @@ Arkanoid::Arkanoid()
 			block->SetCenter(pos + blockOffset);
 			block->SetBlockType(ArkanoidBlock::Type::BLOCKS);
 
-
 			_blocks[y].push_back(block);
 			_blocks[y][x]->SetRed();
 		}
 	}
 
 	_ball = make_shared<ArkanoidBall>(Vector(offset.x, offset.y - 20));
-
 }
 
 Arkanoid::~Arkanoid()
@@ -54,12 +51,11 @@ void Arkanoid::Update()
 		for (auto block : blockV)
 		{
 
-			if (block->IsCollision(_ball) == true) 
-			{
-				block->DeActive();
-				
-
-			}
+			//if (block->IsCollision(_ball) == true) 
+			//{
+			//	block->DeActive();
+			//}
+			_ball->IsCollison(block);
 
 			if(block->isLive)
 				block->Update();
@@ -67,17 +63,12 @@ void Arkanoid::Update()
 	}
 
 	_ball->Update();
-	
 
-	if (isFired == false)
-	{
+	Fire();
+
+	if(isFired == false)
 		_ball->SetCenter(Vector(_player->GetCenter().x, _player->GetCenter().y - 20));
-		Fire();
-	}
-	else 
-	{
-		_ball->SetCenter(_ball->GetCenter() + Vector(0, -1));
-	}
+
 
 
 
@@ -104,5 +95,6 @@ void Arkanoid::Fire()
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
 		isFired = true;
+		_ball->SetDir(Vector(0, -1));
 	}
 }

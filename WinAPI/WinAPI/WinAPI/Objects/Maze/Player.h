@@ -5,21 +5,6 @@ class Block;
 class Player
 {
 public:
-	Player(shared_ptr<Maze> maze);
-	~Player();
-
-	void Update();
-
-	void RightHand();
-	bool CanGo(Vector pos);
-
-private:
-	weak_ptr<Maze> _maze;
-	Vector _pos = { 1,1 };
-	vector<Vector> _path;
-	int _pathIndex = 0;
-	float _delayTime = 0.0f;
-
 	//path
 	enum Direction
 	{
@@ -40,10 +25,30 @@ private:
 		{1, 0}//RIGHT
 	};
 
+	Player(shared_ptr<Maze> maze);
+	~Player();
+
+	void Update();
+
+	void RightHand();
+	bool CanGo(Vector pos);
+
+	void BFS(Vector start);
+
+private:
+	weak_ptr<Maze> _maze;
+	Vector _pos = { 1,1 };
+	vector<Vector> _path;
+	int _pathIndex = 0;
+	float _delayTime = 0.0f;
+
+
+
 	//Right Hand
 	Vector _dir = Vector(0, -1);
 
-
+	vector<vector<bool>> _discovered;
+	vector<vector<Vector>> _parent;
 
 };
 

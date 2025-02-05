@@ -9,7 +9,9 @@ Player::Player(shared_ptr<Maze> maze)
 {
 	_maze.lock()->SetBlockType(_pos, Block::Type::PLAYER);
 
-	RightHand();
+	//RightHand();
+	BFS(_maze.lock()->StartPos());
+
 }
 
 Player::~Player()
@@ -116,4 +118,61 @@ void Player::RightHand()
 bool Player::CanGo(Vector pos)
 {
 	return _maze.lock()->GetBlockType(pos) == Block::Type::ABLE;
+}
+
+void Player::BFS(Vector start)
+{
+	_discovered = vector<vector<bool>>(MAX_Y, vector<bool>(MAX_X, false));
+	_parent = vector<vector<Vector>>(MAX_Y, vector<Vector>(MAX_X, Vector(-1, -1)));
+
+	queue<Vector> q;
+	q.push(start);
+	_discovered[start.y][start.x] = true;
+	_parent[start.y][start.x] = start;
+
+	while (true)
+	{
+		Vector here = q.front();
+		q.pop();
+
+		if (here == _maze.lock()->EndPos())
+			break;
+
+		for (int i = 0; i < 4; i++)
+		{
+			Vector there = here + frontPos[i];
+
+
+
+			if (there == here)
+				continue;
+
+			if (CanGo(there) == false)
+				continue;
+
+			if (_discovered[there.y][there.x] == true)
+				continue;
+
+			q.push(there);
+			_discovered[there.y][there.x] = true;
+			_parent[there.y][there.x] = here;
+			_maze.lock()->SetBlockType(there, Block::Type::SEARCHED);
+		}
+
+	}
+
+	Vector vertex = _maze.lock()->EndPos();
+	_path.push_back(vertex);
+
+	while (true)
+	{
+		if (vertex == start)
+			break;
+
+		vertex = _parent[vertex.y][vertex.x];
+		_path.push_back(vertex);
+	}
+
+	reverse(_path.begin(), _path.end());
+
 }

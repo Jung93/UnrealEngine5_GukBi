@@ -1,4 +1,6 @@
 #pragma once
+class ArkanoidBall;
+
 class ArkanoidBlock : public RectCollider
 {
 public:
@@ -20,6 +22,8 @@ public:
 	ArkanoidBlock::Type GetBlockType() { return _curType; }
 
 	virtual bool IsCollision(shared_ptr<CircleCollider> other) override;
+
+	void Relfect(shared_ptr<ArkanoidBall> other);
 
 	void DeActive() { isLive = false; };
 	bool isLive = true;
