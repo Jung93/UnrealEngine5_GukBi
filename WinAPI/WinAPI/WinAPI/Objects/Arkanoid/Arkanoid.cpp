@@ -44,6 +44,8 @@ Arkanoid::~Arkanoid()
 
 void Arkanoid::Update()
 {
+	srand(time(nullptr));
+
 	_player->Update();
 
 	for (auto blockV : _blocks)
@@ -61,6 +63,8 @@ void Arkanoid::Update()
 				block->Update();
 		}
 	}
+
+	_ball->IsCollison(_player);
 
 	_ball->Update();
 

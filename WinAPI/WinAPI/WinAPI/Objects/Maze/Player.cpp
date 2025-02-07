@@ -10,7 +10,9 @@ Player::Player(shared_ptr<Maze> maze)
 	_maze.lock()->SetBlockType(_pos, Block::Type::PLAYER);
 
 	//RightHand();
-	BFS(_maze.lock()->StartPos());
+	//BFS(_maze.lock()->StartPos());
+	//DFS(_maze.lock()->StartPos());
+	Djikstra(_maze.lock()->StartPos());
 
 }
 
@@ -138,7 +140,7 @@ void Player::BFS(Vector start)
 		if (here == _maze.lock()->EndPos())
 			break;
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			Vector there = here + frontPos[i];
 
@@ -175,4 +177,100 @@ void Player::BFS(Vector start)
 
 	reverse(_path.begin(), _path.end());
 
+}
+
+void Player::DFS(Vector start)
+{
+	_visited = vector<vector<bool>>(MAX_Y, vector<bool>(MAX_X, false));
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		Vector there = start + frontPos[i];
+
+		if (there == start)
+			continue;
+
+		if (CanGo(there) == false)
+			continue;
+
+		if (_visited[start.y][start.x] == true)
+			continue;
+
+		_visited[start.y][start.x] = true;
+		_maze.lock()->SetBlockType(there, Block::Type::SEARCHED);
+
+		DFS(there);
+	}
+
+	//Vector vertex = start;
+	//_path.push_back(vertex);
+	//reverse(_path.begin(), _path.end());
+
+}
+
+void Player::Djikstra(Vector start)
+{
+	_parent = vector<vector<Vector>>(MAX_Y, vector<Vector>(MAX_X, Vector(-1, -1)));
+	_best = vector<vector<int>>(MAX_Y, vector<int>(MAX_X, INT_MAX));
+	priority_queue<Vertex, vector<Vertex>, greater<Vertex>> pq;
+
+	_parent[start.y][start.x] = start;
+	_best[start.y][start.x] = 0;
+	pq.push(Vertex(start, 0));
+
+
+	while (true)
+	{
+		if (pq.empty())
+			break;
+
+		Vertex hereV = pq.top();
+		pq.pop();
+		Vector herePos = hereV.pos;
+
+		//예약된 Vertex를 꺼냈는데 더 좋은 best가 있었다
+		if (_best[herePos.y][herePos.x] < hereV.cost)
+			continue;
+
+		for (int i = 0; i < 8;i++)
+		{
+			Vector therePos = herePos + frontPos[i];
+
+			if (CanGo(therePos) == false)
+				continue;
+
+			//thereCost 찾기
+			int thereCost = 0;
+			if (i < 4)
+				thereCost = hereV.cost + 10;
+			else
+				thereCost = hereV.cost + 14;
+
+			//전에 찾아놓은  best가 더 좋았다
+			if (_best[therePos.y][therePos.x] < thereCost)
+				continue;
+
+			//예약
+			Vertex thereV(therePos, thereCost);
+			pq.push(thereV);
+			_parent[therePos.y][therePos.x] = herePos;
+			_best[therePos.y][therePos.x] = thereCost;
+
+		}
+	}
+
+	Vector vertex = _maze.lock()->EndPos();
+	_path.push_back(vertex);
+
+	while (true)
+	{
+		if (vertex == start)
+			break;
+
+		vertex = _parent[vertex.y][vertex.x];
+		_path.push_back(vertex);
+	}
+
+	reverse(_path.begin(), _path.end());
 }

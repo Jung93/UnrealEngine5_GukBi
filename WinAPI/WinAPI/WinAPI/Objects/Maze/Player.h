@@ -17,12 +17,37 @@ public:
 
 	};
 
-	Vector frontPos[4] =
+	Vector frontPos[8] =
 	{
 		{0 , -1},//UP
 		{-1, 0},//LEFT
 		{0, 1},//BOTTOM
-		{1, 0}//RIGHT
+		{1, 0},//RIGHT
+
+		{-1, -1},//UP RIGHT
+		{1, -1},//UP RIGHT
+		{1, 1},//BOTTOM RIGHT
+		{-1, 1},//BOTTOM LEFT
+
+	};
+
+	struct Vertex
+	{
+		Vertex() {}
+		Vertex(Vector pos, int cost) : pos(pos), cost(cost) {}
+
+		bool operator<(const Vertex& v) const
+		{
+			return cost < v.cost;
+		}
+
+		bool operator>(const Vertex& v) const
+		{
+			return cost > v.cost;
+		}
+
+		Vector pos;
+		int cost;
 	};
 
 	Player(shared_ptr<Maze> maze);
@@ -34,6 +59,9 @@ public:
 	bool CanGo(Vector pos);
 
 	void BFS(Vector start);
+	void DFS(Vector start);
+	void Djikstra(Vector start);
+
 
 private:
 	weak_ptr<Maze> _maze;
@@ -49,6 +77,10 @@ private:
 
 	vector<vector<bool>> _discovered;
 	vector<vector<Vector>> _parent;
+	vector<vector<bool>> _visited;
+
+
+	vector<vector<int>> _best;
 
 };
 

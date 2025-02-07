@@ -2,6 +2,7 @@
 #include "ArkanoidBall.h"
 
 #include "ArkanoidBlock.h"
+#include "ArkanoidPlayer.h"
 
 ArkanoidBall::ArkanoidBall(Vector pos)
 	:CircleCollider(pos, 10)
@@ -25,7 +26,8 @@ void ArkanoidBall::Update()
 		_ballDir.y *= -1;
 
 
-	SetCenter(GetCenter() + _ballDir);
+
+	SetCenter(GetCenter() + _ballDir * _ballSpeed);
 }
 
 void ArkanoidBall::Render(HDC hdc)
@@ -66,8 +68,60 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidBlock> block)
 	_ballDir.y *= -1;
 
 	//반사처리
-
-
 }
 
 
+void ArkanoidBall::IsCollison(shared_ptr<ArkanoidPlayer> player)
+{
+	Vector dir = GetCenter() - player->GetCenter();
+	Vector rightV = Vector(1, 0);
+	Vector upV = Vector(0, -1);
+
+	Vector halfSize = player->GetHalfSize();
+
+	int randNum = rand() % 3 + 1;
+
+	//예외처리
+	if (dir.Length() > halfSize.Length() + GetRadius())
+		return;
+
+	//x축 내적
+	float lengthX = abs(rightV.Dot(dir));
+	if (lengthX > halfSize.x + GetRadius())
+		return;
+
+	//y축 내적
+	float lengthY = abs(upV.Dot(dir));
+	if (lengthY > halfSize.y + GetRadius())
+		return;
+
+	float hitPointRatio = player->GetCenter().x - GetCenter().x;
+
+	if (hitPointRatio > 0)
+	{
+		if(_ballDir.x > 0)
+			_ballDir.x *= (-randNum);
+		else if (_ballDir.x == 0)
+		{
+			_ballDir.x = (-randNum);
+		}
+
+	}
+
+	if (hitPointRatio < 0)
+	{
+		if (_ballDir.x < 0)
+			_ballDir.x *= (-randNum);
+		else if (_ballDir.x == 0)
+		{
+			_ballDir.x = randNum;
+		}
+
+	}
+
+	//충돌한 블록 제거
+	_ballDir.y *= (-randNum);
+
+	//반사처리
+	_ballDir.Noramlize();
+}

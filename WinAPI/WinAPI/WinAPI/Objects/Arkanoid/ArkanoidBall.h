@@ -1,6 +1,7 @@
 #pragma once
 
 class ArkanoidBlock;
+class ArkanoidPlayer;
 
 class ArkanoidBall : public CircleCollider
 {
@@ -12,6 +13,7 @@ public:
 	virtual void Render(HDC hdc) override;
 
 	void IsCollison(shared_ptr<ArkanoidBlock> block);
+	void IsCollison(shared_ptr<ArkanoidPlayer> block);
 
 	Vector GetDir() { return _ballDir; }
 	void SetDir(Vector dir) { _ballDir = dir; }
@@ -21,5 +23,6 @@ private:
 
 	Vector _ballDir;
 
+	float _ballSpeed = 3.0f;
 };
 
