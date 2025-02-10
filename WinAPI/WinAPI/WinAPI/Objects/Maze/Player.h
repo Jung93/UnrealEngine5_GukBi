@@ -31,17 +31,17 @@ public:
 
 	};
 
-	struct Vertex
+	struct Vertex_Djikstra
 	{
-		Vertex() {}
-		Vertex(Vector pos, int cost) : pos(pos), cost(cost) {}
+		Vertex_Djikstra() {}
+		Vertex_Djikstra(Vector pos, int cost) : pos(pos), cost(cost) {}
 
-		bool operator<(const Vertex& v) const
+		bool operator<(const Vertex_Djikstra& v) const
 		{
 			return cost < v.cost;
 		}
 
-		bool operator>(const Vertex& v) const
+		bool operator>(const Vertex_Djikstra& v) const
 		{
 			return cost > v.cost;
 		}
@@ -49,6 +49,29 @@ public:
 		Vector pos;
 		int cost;
 	};
+
+	struct Vertex
+	{
+		Vertex() {}
+		Vertex(Vector pos, int g, int h) : pos(pos), g(g), h(h), f(g+h) {}
+
+		bool operator<(const Vertex& v) const
+		{
+			return f < v.f;
+		}
+
+		bool operator>(const Vertex& v) const
+		{
+			return f > v.f;
+		}
+
+		Vector pos;
+		int g;
+		int h;
+		int f;// g + h
+
+	};
+
 
 	Player(shared_ptr<Maze> maze);
 	~Player();
@@ -61,6 +84,7 @@ public:
 	void BFS(Vector start);
 	void DFS(Vector start);
 	void Djikstra(Vector start);
+	void AStar(Vector start, Vector end);
 
 
 private:

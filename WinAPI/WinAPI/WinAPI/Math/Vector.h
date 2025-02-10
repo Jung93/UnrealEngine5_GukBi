@@ -121,6 +121,13 @@ public:
 		return result;
 	}
 
+	float ManhattanDistance(Vector pos) 
+	{ 
+		Vector temp = pos - *this;
+
+		return abs(temp.x) + abs(temp.y);
+	}
+
 
 	float x;
 	float y;

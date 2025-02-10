@@ -14,14 +14,16 @@ HDC Program::backbuffer = nullptr;
 
 Program::Program()
 {
+	srand(time(nullptr));
+
 	//_scene = make_shared<PaintScene>();
 	//_scene = make_shared<CollisionScene>();
 	//_scene = make_shared<LineScene>();
 	//_scene = make_shared<LineCollisionScene>();
 	//_scene = make_shared<CannonScene>();
 	//_scene = make_shared<FortressScene>();
-	//_scene = make_shared<MazeScene>();
-	_scene = make_shared<ArkanoidScene>();
+	_scene = make_shared<MazeScene>();
+	//_scene = make_shared<ArkanoidScene>();
 
 	HDC hdc = GetDC(hWnd);
 

@@ -12,7 +12,8 @@ Player::Player(shared_ptr<Maze> maze)
 	//RightHand();
 	//BFS(_maze.lock()->StartPos());
 	//DFS(_maze.lock()->StartPos());
-	Djikstra(_maze.lock()->StartPos());
+	//Djikstra(_maze.lock()->StartPos());
+	AStar(_maze.lock()->StartPos(), _maze.lock()->EndPos());
 
 }
 
@@ -23,7 +24,17 @@ Player::~Player()
 void Player::Update()
 {
 	if (_pathIndex >= _path.size())
+	{
+		_pathIndex = 0;
+		//_maze.lock()->CreateMaze();
+		_maze.lock()->CreateMaze_Kruskal();
+
+		_path.clear();
+		AStar(_maze.lock()->StartPos(), _maze.lock()->EndPos());
+
+
 		return;
+	}
 
 	_delayTime += 0.5f;
 	if (_delayTime > 1.0f)
@@ -213,11 +224,11 @@ void Player::Djikstra(Vector start)
 {
 	_parent = vector<vector<Vector>>(MAX_Y, vector<Vector>(MAX_X, Vector(-1, -1)));
 	_best = vector<vector<int>>(MAX_Y, vector<int>(MAX_X, INT_MAX));
-	priority_queue<Vertex, vector<Vertex>, greater<Vertex>> pq;
+	priority_queue<Vertex_Djikstra, vector<Vertex_Djikstra>, greater<Vertex_Djikstra>> pq;
 
 	_parent[start.y][start.x] = start;
 	_best[start.y][start.x] = 0;
-	pq.push(Vertex(start, 0));
+	pq.push(Vertex_Djikstra(start, 0));
 
 
 	while (true)
@@ -225,7 +236,7 @@ void Player::Djikstra(Vector start)
 		if (pq.empty())
 			break;
 
-		Vertex hereV = pq.top();
+		Vertex_Djikstra hereV = pq.top();
 		pq.pop();
 		Vector herePos = hereV.pos;
 
@@ -252,12 +263,82 @@ void Player::Djikstra(Vector start)
 				continue;
 
 			//¿¹¾à
-			Vertex thereV(therePos, thereCost);
+			Vertex_Djikstra thereV(therePos, thereCost);
 			pq.push(thereV);
 			_parent[therePos.y][therePos.x] = herePos;
 			_best[therePos.y][therePos.x] = thereCost;
 
 		}
+	}
+
+	Vector vertex = _maze.lock()->EndPos();
+	_path.push_back(vertex);
+
+	while (true)
+	{
+		if (vertex == start)
+			break;
+
+		vertex = _parent[vertex.y][vertex.x];
+		_path.push_back(vertex);
+	}
+
+	reverse(_path.begin(), _path.end());
+}
+
+void Player::AStar(Vector start, Vector end)
+{
+	_parent = vector<vector<Vector>>(MAX_Y, vector<Vector>(MAX_X, Vector(-1, -1)));
+	_best = vector<vector<int>>(MAX_Y, vector<int>(MAX_X, INT_MAX));
+	priority_queue<Vertex, vector<Vertex>, greater<Vertex>> pq;
+
+	_parent[start.y][start.x] = start;
+	_best[start.y][start.x] = start.ManhattanDistance(end) * 10;
+	pq.push(Vertex(start, 0, start.ManhattanDistance(end) * 10));
+
+	while (true)
+	{
+		if (pq.empty())
+			break;
+
+		Vertex hereV = pq.top();
+		Vector here = hereV.pos;
+
+		pq.pop();
+
+		if (hereV.f < _best[here.y][here.x])
+			continue;
+
+		if (here == end)
+			break;
+
+		for (int i = 0; i < 8; i++)
+		{
+			Vector there = here + frontPos[i];
+
+			if (CanGo(there) == false)
+				continue;
+
+			float thereG = 0;
+
+			if (i < 4)
+				thereG = hereV.g + 10;
+			else
+				thereG = hereV.g + 14;
+
+			float thereH = there.ManhattanDistance(end) * 10;
+			float thereF = thereG + thereH;
+
+			if (thereF > _best[there.y][there.x])
+				continue;
+
+			Vertex thereV = Vertex(there, thereG, thereH);
+			pq.push(thereV);
+			_best[there.y][there.x] = thereF;
+			_parent[there.y][there.x] = here;
+			_maze.lock()->SetBlockType(there, Block::Type::SEARCHED);
+		}
+
 	}
 
 	Vector vertex = _maze.lock()->EndPos();
