@@ -22,8 +22,8 @@ Program::Program()
 	//_scene = make_shared<LineCollisionScene>();
 	//_scene = make_shared<CannonScene>();
 	//_scene = make_shared<FortressScene>();
-	_scene = make_shared<MazeScene>();
-	//_scene = make_shared<ArkanoidScene>();
+	//_scene = make_shared<MazeScene>();
+	_scene = make_shared<ArkanoidScene>();
 
 	HDC hdc = GetDC(hWnd);
 
