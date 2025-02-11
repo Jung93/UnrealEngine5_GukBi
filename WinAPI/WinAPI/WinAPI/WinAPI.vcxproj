@@ -203,6 +203,20 @@
     <Image Include="small.ico" />
     <Image Include="WinAPI.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (1).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (10).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (11).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (12).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (2).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (3).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (4).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (5).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (6).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (7).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (8).wav" />
+    <Media Include="Objects\Arkanoid\ArkanoidSound\Arkanoid SFX (9).wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

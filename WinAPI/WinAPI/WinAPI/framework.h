@@ -22,6 +22,9 @@
 #include <memory>
 #include <functional>
 #include <time.h>
+#include <windows.h>
+#include <mmsystem.h>
+
 
 using namespace std;
 

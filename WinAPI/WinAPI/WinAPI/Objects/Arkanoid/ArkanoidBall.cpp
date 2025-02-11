@@ -4,6 +4,9 @@
 #include "ArkanoidBlock.h"
 #include "ArkanoidPlayer.h"
 
+#pragma comment(lib, "winmm.lib")
+
+
 ArkanoidBall::ArkanoidBall(Vector pos)
 	:CircleCollider(pos, 10)
 {
@@ -66,8 +69,8 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidBlock> block)
 	//충돌한 블록 제거
 	block->DeActive();
 	_ballDir.y *= -1;
+	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (6).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
-	//반사처리
 }
 
 
@@ -124,4 +127,7 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidPlayer> player)
 
 	//반사처리
 	_ballDir.Noramlize();
+
+	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (8).wav"), NULL, SND_FILENAME | SND_ASYNC);
+
 }

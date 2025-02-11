@@ -5,9 +5,13 @@
 #include "ArkanoidBlock.h"
 #include "ArkanoidBall.h"
 
+#pragma comment(lib, "winmm.lib")
+
 Arkanoid::Arkanoid()
 {
 	Vector offset = Vector(600, 600);
+
+	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (9).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 	_player = make_shared<ArkanoidPlayer>();
 
@@ -117,6 +121,7 @@ bool Arkanoid::IsDead()
 			_gameOver = true;
 
 		}
+		PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (10).wav"), NULL, SND_FILENAME | SND_SYNC);
 
 		return true;
 	}
