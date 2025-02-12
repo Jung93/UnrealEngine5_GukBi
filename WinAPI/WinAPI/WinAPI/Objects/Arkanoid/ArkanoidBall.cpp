@@ -29,7 +29,6 @@ void ArkanoidBall::Update()
 		_ballDir.y *= -1;
 
 
-
 	SetCenter(GetCenter() + _ballDir * _ballSpeed);
 }
 
@@ -37,7 +36,6 @@ void ArkanoidBall::Render(HDC hdc)
 {
 	SelectObject(hdc, _brush);
 	CircleCollider::Render(hdc);
-
 
 }
 
@@ -82,8 +80,6 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidPlayer> player)
 
 	Vector halfSize = player->GetHalfSize();
 
-	int randNum = rand() % 3 + 1;
-
 	//예외처리
 	if (dir.Length() > halfSize.Length() + GetRadius())
 		return;
@@ -98,35 +94,11 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidPlayer> player)
 	if (lengthY > halfSize.y + GetRadius())
 		return;
 
-	float hitPointRatio = player->GetCenter().x - GetCenter().x;
+	Vector hit = GetCenter() - player->GetCenter();
 
-	if (hitPointRatio > 0)
-	{
-		if(_ballDir.x > 0)
-			_ballDir.x *= (-randNum);
-		else if (_ballDir.x == 0)
-		{
-			_ballDir.x = (-randNum);
-		}
-
-	}
-
-	if (hitPointRatio < 0)
-	{
-		if (_ballDir.x < 0)
-			_ballDir.x *= (-randNum);
-		else if (_ballDir.x == 0)
-		{
-			_ballDir.x = randNum;
-		}
-
-	}
-
-	//충돌한 블록 제거
-	_ballDir.y *= (-randNum);
+	_ballDir = hit.NormalVector();
 
 	//반사처리
-	_ballDir.Noramlize();
 
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (8).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
