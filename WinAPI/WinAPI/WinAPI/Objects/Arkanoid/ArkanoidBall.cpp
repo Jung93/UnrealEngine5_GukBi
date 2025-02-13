@@ -7,10 +7,12 @@
 #pragma comment(lib, "winmm.lib")
 
 
-ArkanoidBall::ArkanoidBall(Vector pos)
-	:CircleCollider(pos, 10)
+ArkanoidBall::ArkanoidBall(shared_ptr<ArkanoidPlayer> player)
+	:CircleCollider(player->GetCenter(), 10)
 {
 	_brush = CreateSolidBrush(BLACK);
+
+	_player = player;
 }
 
 ArkanoidBall::~ArkanoidBall()
@@ -19,7 +21,13 @@ ArkanoidBall::~ArkanoidBall()
 
 void ArkanoidBall::Update()
 {
+	if (_isActive == false)
+		return;
+
+
 	CircleCollider::Update();
+
+	Fixed();
 
 	Vector center = GetCenter();
 
@@ -28,12 +36,18 @@ void ArkanoidBall::Update()
 	if (center.y < 0)
 		_ballDir.y *= -1;
 
+	if (center.y > WIN_HEIGHT)
+		_isActive = false;
+
 
 	SetCenter(GetCenter() + _ballDir * _ballSpeed);
 }
 
 void ArkanoidBall::Render(HDC hdc)
 {
+	if (_isActive == false)
+		return;
+
 	SelectObject(hdc, _brush);
 	CircleCollider::Render(hdc);
 
@@ -101,5 +115,16 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidPlayer> player)
 	//반사처리
 
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (8).wav"), NULL, SND_FILENAME | SND_ASYNC);
+
+}
+
+void ArkanoidBall::Fixed()
+{
+	if (_player.expired() || _isFired == true)
+		return;
+
+	shared_ptr<ArkanoidPlayer> p = _player.lock();
+	float r = p->GetHalfSize().y + GetRadius();
+	SetCenter(_player.lock()->GetCenter() + Vector(0,  -r));
 
 }

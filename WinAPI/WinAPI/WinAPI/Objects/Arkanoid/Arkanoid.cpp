@@ -17,7 +17,6 @@ Arkanoid::Arkanoid()
 
 	CreateBlock();
 
-	_ball = make_shared<ArkanoidBall>(Vector(offset.x, offset.y - 20));
 
 
 }
@@ -39,28 +38,11 @@ void Arkanoid::Update()
 		for (auto block : blockV)
 		{
 
-			_ball->IsCollison(block);
 
 			if(block->isLive)
 				block->Update();
 		}
 	}
-
-	_ball->IsCollison(_player);
-
-	_ball->Update();
-
-
-
-
-	Fire();
-
-	if(isFired == false)
-		_ball->SetCenter(Vector(_player->GetCenter().x, _player->GetCenter().y - 20));
-
-
-
-
 }	
 
 void Arkanoid::Render(HDC hdc)
@@ -73,45 +55,13 @@ void Arkanoid::Render(HDC hdc)
 				block->Render(hdc);
 		}
 	}
-	_ball->Render(hdc);
 
-	for (int i = 0; i < _lifes.size();i++)
-	{
-		_lifes[i]->Render(hdc);
-	}
 
 }
 
-void Arkanoid::Fire()
-{
-	if (GetKeyState(VK_SPACE) & 0x8000)
-	{
-		isFired = true;
-		_ball->SetDir(Vector(0, -1));
-	}
-}
 
-bool Arkanoid::IsDead()
-{
-	if (_ball->GetCenter().y > WIN_HEIGHT)
-	{
-		if (_lifes.empty() == false)
-		{
-			_lifes.pop_back();
-			_ball->SetDir(Vector(0, -1));
-			isFired = false;
-		}
-		else
-		{
-			_gameOver = true;
 
-		}
-		PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (10).wav"), NULL, SND_FILENAME | SND_SYNC);
 
-		return true;
-	}
-	return false;
-}
 
 void Arkanoid::CreateBlock()
 {

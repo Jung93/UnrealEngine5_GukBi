@@ -24,7 +24,6 @@ public:
 
 	virtual bool IsCollision(shared_ptr<CircleCollider> other) override;
 
-	void Relfect(shared_ptr<ArkanoidBall> other);
 
 	void DeActive() { isLive = false; };
 	bool isLive = true;

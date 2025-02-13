@@ -1,7 +1,6 @@
 #include "framework.h"
 #include "ArkanoidBlock.h"
 
-#include "ArkanoidBall.h"
 
 ArkanoidBlock::ArkanoidBlock()
 	:RectCollider(Vector(0, 0), Vector(100, 15))
@@ -53,9 +52,7 @@ bool ArkanoidBlock::IsCollision(shared_ptr<CircleCollider> other)
 	return true;
 }
 
-void ArkanoidBlock::Relfect(shared_ptr<ArkanoidBall> other)
-{
 
-}
+
 
 

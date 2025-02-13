@@ -7,6 +7,9 @@ public:
 	ArkanoidPlayer();
 	~ArkanoidPlayer();
 
+	void Init();
+
+
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
@@ -19,6 +22,7 @@ private:
 	HBRUSH _brush;
 	float _speed = 5.0f;
 
+	shared_ptr<ArkanoidBall> _ball;
 	vector<shared_ptr<ArkanoidBall>> _lifes;
 
 };

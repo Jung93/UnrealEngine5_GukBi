@@ -6,13 +6,15 @@
 
 ArkanoidScene::ArkanoidScene()
 {
+	_player = make_shared<ArkanoidPlayer>();
 	_arkanoid = make_shared<Arkanoid>();
 
-	_player = make_shared<ArkanoidPlayer>();
 	Vector offset = Vector(600, 600);
-
 	_player->SetCenter(offset);
 	_player->SetGreen();
+
+	_player->Init();
+
 }
 
 ArkanoidScene::~ArkanoidScene()
@@ -23,6 +25,8 @@ void ArkanoidScene::Update()
 {
 	_arkanoid->Update();
 	_player->Update();
+
+	_player->Move();
 }
 
 void ArkanoidScene::Render(HDC hdc)
