@@ -1,5 +1,6 @@
 #pragma once
 class Arkanoid;
+class ArkanoidPlayer;
 
 class ArkanoidScene : public Scene
 {
@@ -16,6 +17,7 @@ public:
 
 private:
 	shared_ptr<Arkanoid> _arkanoid;
+	shared_ptr<ArkanoidPlayer> _player;
 
 };
 

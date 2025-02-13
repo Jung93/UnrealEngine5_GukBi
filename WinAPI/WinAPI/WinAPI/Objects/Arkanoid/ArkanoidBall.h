@@ -13,7 +13,7 @@ public:
 	virtual void Render(HDC hdc) override;
 
 	void IsCollison(shared_ptr<ArkanoidBlock> block);
-	void IsCollison(shared_ptr<ArkanoidPlayer> block);
+	void IsCollison(shared_ptr<ArkanoidPlayer> player);
 
 	Vector GetDir() { return _ballDir; }
 	void SetDir(Vector dir) { _ballDir = dir; }

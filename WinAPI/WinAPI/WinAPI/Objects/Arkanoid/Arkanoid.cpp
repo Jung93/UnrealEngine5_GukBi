@@ -13,20 +13,13 @@ Arkanoid::Arkanoid()
 
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (9).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
-	_player = make_shared<ArkanoidPlayer>();
 
-	_player->SetCenter(offset);
-	_player->SetGreen();
 
 	CreateBlock();
 
 	_ball = make_shared<ArkanoidBall>(Vector(offset.x, offset.y - 20));
 
-	for (int i = 0; i < 3;i++)
-	{
-		shared_ptr<ArkanoidBall> life = make_shared<ArkanoidBall>(Vector(50 + 50 * i,650));
-		_lifes.push_back(life);
-	}
+
 }
 
 Arkanoid::~Arkanoid()
@@ -40,7 +33,6 @@ void Arkanoid::Update()
 	if (_gameOver == true)
 		return;
 
-	_player->Update();
 
 	for (auto blockV : _blocks)
 	{
@@ -58,12 +50,8 @@ void Arkanoid::Update()
 
 	_ball->Update();
 
-	IsDead();
 
-	for (int i = 0; i < _lifes.size();i++)
-	{
-		_lifes[i]->Update();
-	}
+
 
 	Fire();
 
@@ -77,9 +65,6 @@ void Arkanoid::Update()
 
 void Arkanoid::Render(HDC hdc)
 {
-
-	_player->Render(hdc);
-
 	for (auto blockV : _blocks)
 	{
 		for (auto block : blockV)
