@@ -57,6 +57,15 @@
     <ClCompile Include="BST.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DP.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DP2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DP4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BST.h">

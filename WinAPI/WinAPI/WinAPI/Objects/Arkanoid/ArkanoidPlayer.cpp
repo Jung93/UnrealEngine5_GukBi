@@ -14,6 +14,7 @@ ArkanoidPlayer::ArkanoidPlayer()
 		//_lifes.push_back(life);
 	}
 
+	unsigned int a = 3;
 }
 
 ArkanoidPlayer::~ArkanoidPlayer()

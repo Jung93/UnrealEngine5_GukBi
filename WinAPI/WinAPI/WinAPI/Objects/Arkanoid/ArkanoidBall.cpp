@@ -24,9 +24,7 @@ void ArkanoidBall::Update()
 	if (_isActive == false)
 		return;
 
-
 	CircleCollider::Update();
-
 	Fixed();
 
 	Vector center = GetCenter();
@@ -35,10 +33,11 @@ void ArkanoidBall::Update()
 		_ballDir.x *= -1;
 	if (center.y < 0)
 		_ballDir.y *= -1;
-
 	if (center.y > WIN_HEIGHT)
 		_isActive = false;
 
+	shared_ptr<ArkanoidPlayer> p = _player.lock();
+	IsCollison(p);
 
 	SetCenter(GetCenter() + _ballDir * _ballSpeed);
 }
