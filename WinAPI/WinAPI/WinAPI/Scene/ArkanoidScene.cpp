@@ -14,7 +14,7 @@ ArkanoidScene::ArkanoidScene()
 	_player->SetGreen();
 
 	_player->Init();
-
+	_arkanoid->Init(_player);
 }
 
 ArkanoidScene::~ArkanoidScene()
@@ -35,7 +35,7 @@ void ArkanoidScene::Update()
 	{
 		life->Update();
 	}
-
+	_arkanoid->GetItems(_player);
 }
 
 void ArkanoidScene::Render(HDC hdc)

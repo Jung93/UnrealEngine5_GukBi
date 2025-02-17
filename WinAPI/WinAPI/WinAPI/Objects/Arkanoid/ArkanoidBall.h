@@ -19,6 +19,8 @@ public:
 
 	void SetDir(Vector dir) { _ballDir = dir; }
 	void SetActive() { _isActive = true; }
+	void DeAtive() { _isActive = false; }
+
 	void Fire() { _isFired = true; }
 	void ReadyFire() { _isFired = false; }
 

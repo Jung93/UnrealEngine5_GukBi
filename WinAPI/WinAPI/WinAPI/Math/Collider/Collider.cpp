@@ -14,6 +14,7 @@ Collider::Collider(Vector center)
 
 	_brushes.push_back(CreateSolidBrush(GREEN));
 	_brushes.push_back(CreateSolidBrush(RED));
+	_brushes.push_back(CreateSolidBrush(BLUE));
 
 }
 

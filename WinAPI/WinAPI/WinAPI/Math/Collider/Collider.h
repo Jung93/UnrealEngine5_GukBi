@@ -20,6 +20,7 @@ public:
 
 	void SetGreen() { _curPen = 1; }
 	void SetRed() { _curPen = 2; }
+	void SetBlue() { _curPen = 3; }
 
 	void SetBrushGreen() { _curBrush = 0; };
 	void SetBrushRed() { _curBrush = 1; };

@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "ArkanoidBlock.h"
-
+#include "ArkanoidItem.h"
 
 ArkanoidBlock::ArkanoidBlock()
 	:RectCollider(Vector(0, 0), Vector(100, 15))
@@ -8,6 +8,7 @@ ArkanoidBlock::ArkanoidBlock()
 	_brushes.push_back(CreateSolidBrush(BLACK));
 	_brushes.push_back(CreateSolidBrush(GREEN));
 	_brushes.push_back(CreateSolidBrush(RED));
+	_brushes.push_back(CreateSolidBrush(BLUE));
 }
 
 ArkanoidBlock::~ArkanoidBlock()
@@ -24,6 +25,16 @@ void ArkanoidBlock::Render(HDC hdc)
 {
 	SelectObject(hdc, _brushes[static_cast<int>(_curType)]);
 	RectCollider::Render(hdc);
+}
+
+void ArkanoidBlock::SetItem(shared_ptr<ArkanoidItem> item)
+{
+	_item = item;
+	if (_item.expired())
+		return;
+
+	_item.lock()->Pos() = GetCenter();
+
 }
 
 bool ArkanoidBlock::IsCollision(shared_ptr<CircleCollider> other)
@@ -48,6 +59,9 @@ bool ArkanoidBlock::IsCollision(shared_ptr<CircleCollider> other)
 	float lengthY = abs(upV.Dot(dir));
 	if (lengthY > halfSize.y + other->GetRadius())
 		return false;
+
+
+
 
 	return true;
 }

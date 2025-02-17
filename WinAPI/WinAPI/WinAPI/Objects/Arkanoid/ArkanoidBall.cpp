@@ -3,6 +3,7 @@
 
 #include "ArkanoidBlock.h"
 #include "ArkanoidPlayer.h"
+#include "ArkanoidItem.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -80,6 +81,11 @@ void ArkanoidBall::IsCollison(shared_ptr<ArkanoidBlock> block)
 	//충돌한 블록 제거
 	block->DeActive();
 	_ballDir.y *= -1;
+
+	if(block->GetItem() != nullptr)
+		block->GetItem()->CanFalling() = true;
+
+
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (6).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 }

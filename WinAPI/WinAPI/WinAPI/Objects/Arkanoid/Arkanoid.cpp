@@ -4,6 +4,7 @@
 #include "ArkanoidPlayer.h"
 #include "ArkanoidBlock.h"
 #include "ArkanoidBall.h"
+#include "ArkanoidItem.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -14,10 +15,30 @@ Arkanoid::Arkanoid()
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (9).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 	CreateBlock();
+
+
+
 }
 
 Arkanoid::~Arkanoid()
 {
+}
+
+void Arkanoid::Init(shared_ptr<ArkanoidPlayer> bar)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		shared_ptr<ArkanoidItem> item = make_shared<ArkanoidItem>();
+		item->SetSkill(std::bind(&ArkanoidPlayer::TwoBall_Skill, bar));
+		_items.push_back(item);
+
+		int randY = rand() % _blocks.size();
+		int randX = rand() % _blocks[randY].size();
+		_blocks[randY][randX]->SetItem(item);
+		_blocks[randY][randX]->SetBlockType(ArkanoidBlock::Type::ITEM_BLOCKS);
+		_blocks[randY][randX]->SetBlue();
+
+	}
 }
 
 void Arkanoid::Update()
@@ -38,6 +59,9 @@ void Arkanoid::Update()
 				block->Update();
 		}
 	}
+
+	for (auto item : _items)
+		item->Update();
 }	
 
 void Arkanoid::Render(HDC hdc)
@@ -49,6 +73,12 @@ void Arkanoid::Render(HDC hdc)
 			if (block->isLive)
 				block->Render(hdc);
 		}
+	}
+
+	for (auto item : _items)
+	{
+		if (item->IsActive())
+			item->Render(hdc);
 	}
 }
 
@@ -76,14 +106,37 @@ void Arkanoid::CreateBlock()
 	}
 }
 
-void Arkanoid::IsCollision(shared_ptr<ArkanoidBall> ball)
+void Arkanoid::IsCollision(vector<shared_ptr<ArkanoidBall>> balls)
 {
 	for (auto blockV : _blocks)
 	{
 		for (auto block : blockV)
 		{
 			if (block->isLive)
-				ball->IsCollison(block);
+			{
+				for (auto ball : balls)
+				{
+					ball->IsCollison(block);
+				}
+
+			}
+		}
+	}
+}
+
+void Arkanoid::GetItems(shared_ptr<ArkanoidPlayer> player)
+{
+	for (auto item : _items)
+	{
+		// item과 bar 충돌 했을 때...
+		if (item->GetCollider()->IsCollision(dynamic_pointer_cast<RectCollider>(player)))
+		{
+			// 충돌
+			if (item->IsActive())
+			{
+				item->ActiveSkill();
+				item->DeActive();
+			}
 		}
 	}
 }

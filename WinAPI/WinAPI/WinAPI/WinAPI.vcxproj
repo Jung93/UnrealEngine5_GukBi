@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Arkanoid\ArkanoidItem.h" />
     <ClInclude Include="Math\DisJointSet.h" />
     <ClInclude Include="Objects\Arkanoid\ArkanoidPlayer.h" />
     <ClInclude Include="Objects\Arkanoid\Arkanoid.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="WinAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Arkanoid\ArkanoidItem.cpp" />
     <ClCompile Include="Objects\Arkanoid\ArkanoidPlayer.cpp" />
     <ClCompile Include="Objects\Arkanoid\Arkanoid.cpp" />
     <ClCompile Include="Objects\Arkanoid\ArkanoidBall.cpp" />

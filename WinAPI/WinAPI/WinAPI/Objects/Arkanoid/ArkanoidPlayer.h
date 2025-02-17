@@ -1,5 +1,6 @@
 #pragma once
 class ArkanoidBall;
+class ArkanoidItem;
 
 class ArkanoidPlayer : public RectCollider
 {
@@ -17,14 +18,21 @@ public:
 	void Move();
 	bool IsDead();
 
-	shared_ptr<ArkanoidBall> GetBall() { return _ball; }
+	void EatItem(shared_ptr<ArkanoidItem> item);
+
+	vector<shared_ptr<ArkanoidBall>> GetBall() { return _balls; }
 	vector<shared_ptr<CircleCollider>> GetLife() { return _lifes; }
+	//shared_ptr<Collider> GetCollider() { return shared_from_this(); }
+
+	void TwoBall_Skill();
+
 
 private:
 	HBRUSH _brush;
 	float _speed = 5.0f;
 
-	shared_ptr<ArkanoidBall> _ball;
+	vector<shared_ptr<ArkanoidBall>> _balls;
+
 	vector<shared_ptr<CircleCollider>> _lifes;
 
 	bool _gameOver = false;
