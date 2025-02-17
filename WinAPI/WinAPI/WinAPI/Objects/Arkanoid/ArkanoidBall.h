@@ -16,23 +16,23 @@ public:
 	void IsCollison(shared_ptr<ArkanoidPlayer> player);
 
 	Vector GetDir() { return _ballDir; }
+
 	void SetDir(Vector dir) { _ballDir = dir; }
+	void SetActive() { _isActive = true; }
+	void Fire() { _isFired = true; }
+	void ReadyFire() { _isFired = false; }
 
 	bool IsFired() { return _isFired; }
 	bool IsActive() { return _isActive; }
-	void SetActive() { _isActive = true; }
-	void Fire() { _isFired = true; }
 
 	void Fixed();
 
 private:
 	HBRUSH _brush;
 
-	Vector _ballDir;
-
-	float _ballSpeed = 3.0f;
-
 	weak_ptr<ArkanoidPlayer> _player;
+	Vector _ballDir;
+	float _ballSpeed = 3.0f;
 
 	bool _isFired = false;
 	bool _isActive = false;

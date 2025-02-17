@@ -8,13 +8,12 @@ ArkanoidPlayer::ArkanoidPlayer()
 {
 	_brush = CreateSolidBrush(GREEN);
 
-	for (int i = 0; i < 3;i++)
+	for (int i = 0; i < 1;i++)
 	{
-		//shared_ptr<ArkanoidBall> life = make_shared<ArkanoidBall>(Vector(50 + 50 * i, 650));
-		//_lifes.push_back(life);
+		shared_ptr<CircleCollider> life = make_shared<CircleCollider>(Vector(50 + 50 * i, 650), 10.0f);
+		_lifes.push_back(life);
 	}
 
-	unsigned int a = 3;
 }
 
 ArkanoidPlayer::~ArkanoidPlayer()
@@ -31,14 +30,13 @@ void ArkanoidPlayer::Init()
 
 void ArkanoidPlayer::Update()
 {
+	if (_gameOver)
+		return;
+
 	RectCollider::Update();
 
-	//for (int i = 0; i < _lifes.size();i++)
-	//{
-	//	_lifes[i]->Update();
-	//}
-
 	_ball->Update();
+	IsDead();
 }
 
 void ArkanoidPlayer::Render(HDC hdc)
@@ -52,6 +50,9 @@ void ArkanoidPlayer::Render(HDC hdc)
 
 void ArkanoidPlayer::Move()
 {
+	if (_gameOver)
+		return;
+
 	if (GetKeyState('A') & 0x8000)
 	{
 		SetCenter(GetCenter() + Vector(-1, 0) * _speed);
@@ -76,17 +77,20 @@ bool ArkanoidPlayer::IsDead()
 {
 	if (_ball->GetCenter().y > WIN_HEIGHT)
 	{
-		//if (_lifes.empty() == false)
-		//{
-		//	_lifes.pop_back();
-		//	_ball->SetDir(Vector(0, -1));
-		//}
-		//else
-		//{
+		if (_lifes.empty() == false)
+		{
+			_lifes.pop_back();
+			_ball->SetDir(Vector(0, -1));
+		}
+		else
+		{
+			PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (11).wav"), NULL, SND_FILENAME | SND_SYNC);
+			_gameOver = true;
+			return true;
+		}
 
-		//}
 		PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (10).wav"), NULL, SND_FILENAME | SND_SYNC);
-
+		_ball->ReadyFire();
 		return true;
 	}
 	return false;

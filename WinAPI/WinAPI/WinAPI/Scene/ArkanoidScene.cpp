@@ -27,10 +27,24 @@ void ArkanoidScene::Update()
 	_player->Update();
 
 	_player->Move();
+
+	_arkanoid->IsCollision(_player->GetBall());
+
+
+	for (auto life : _player->GetLife())
+	{
+		life->Update();
+	}
+
 }
 
 void ArkanoidScene::Render(HDC hdc)
 {
 	_arkanoid->Render(hdc);
 	_player->Render(hdc);
+
+	for (auto life : _player->GetLife())
+	{
+		life->Render(hdc);
+	}
 }

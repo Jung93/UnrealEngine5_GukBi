@@ -17,13 +17,16 @@ public:
 	void Move();
 	bool IsDead();
 
+	shared_ptr<ArkanoidBall> GetBall() { return _ball; }
+	vector<shared_ptr<CircleCollider>> GetLife() { return _lifes; }
 
 private:
 	HBRUSH _brush;
 	float _speed = 5.0f;
 
 	shared_ptr<ArkanoidBall> _ball;
-	vector<shared_ptr<ArkanoidBall>> _lifes;
+	vector<shared_ptr<CircleCollider>> _lifes;
 
+	bool _gameOver = false;
 };
 

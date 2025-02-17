@@ -124,6 +124,6 @@ void ArkanoidBall::Fixed()
 
 	shared_ptr<ArkanoidPlayer> p = _player.lock();
 	float r = p->GetHalfSize().y + GetRadius();
-	SetCenter(_player.lock()->GetCenter() + Vector(0,  -r));
+	SetCenter(_player.lock()->GetCenter() + Vector(0,  -(r+ 5.0f)));
 
 }

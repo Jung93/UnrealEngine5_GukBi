@@ -20,12 +20,13 @@ public:
 	virtual void Render(HDC hdc) override;
 
 	void SetBlockType(ArkanoidBlock::Type type) { _curType = type; }
+	void DeActive() { isLive = false; };
+
 	ArkanoidBlock::Type GetBlockType() { return _curType; }
 
 	virtual bool IsCollision(shared_ptr<CircleCollider> other) override;
 
 
-	void DeActive() { isLive = false; };
 	bool isLive = true;
 
 private:

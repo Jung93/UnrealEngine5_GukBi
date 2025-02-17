@@ -13,12 +13,7 @@ Arkanoid::Arkanoid()
 
 	PlaySound(TEXT("Objects//Arkanoid//ArkanoidSound//Arkanoid SFX (9).wav"), NULL, SND_FILENAME | SND_ASYNC);
 
-
-
 	CreateBlock();
-
-
-
 }
 
 Arkanoid::~Arkanoid()
@@ -55,13 +50,7 @@ void Arkanoid::Render(HDC hdc)
 				block->Render(hdc);
 		}
 	}
-
-
 }
-
-
-
-
 
 void Arkanoid::CreateBlock()
 {
@@ -86,3 +75,21 @@ void Arkanoid::CreateBlock()
 		}
 	}
 }
+
+void Arkanoid::IsCollision(shared_ptr<ArkanoidBall> ball)
+{
+	for (auto blockV : _blocks)
+	{
+		for (auto block : blockV)
+		{
+			if (block->isLive)
+				ball->IsCollison(block);
+		}
+	}
+}
+
+
+
+
+
+

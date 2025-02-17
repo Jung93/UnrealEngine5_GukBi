@@ -13,9 +13,9 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-
-
 	void CreateBlock();
+	void IsCollision(shared_ptr<ArkanoidBall> ball);
+
 
 private:
 	vector<vector<shared_ptr<ArkanoidBlock>>> _blocks;
