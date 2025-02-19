@@ -15,7 +15,15 @@ ArkanoidPlayer::ArkanoidPlayer()
 		_lifes.push_back(life);
 	}
 
+
+
+	_skills[0] = std::bind(&ArkanoidPlayer::TwoBall_Skill, this);
+	_skills[1] = std::bind(&ArkanoidPlayer::More_Life, this);
+	_skills[2] = std::bind(&ArkanoidPlayer::Game_Clear, this);
+
+
 }
+
 
 ArkanoidPlayer::~ArkanoidPlayer()
 {
@@ -152,4 +160,15 @@ void ArkanoidPlayer::TwoBall_Skill()
 		(*iter)->ReadyFire();
 		(*iter)->SetActive();
 	}
+}
+
+void ArkanoidPlayer::More_Life()
+{
+	int a = 1;
+
+}
+
+void ArkanoidPlayer::Game_Clear()
+{
+	int a = 1;
 }

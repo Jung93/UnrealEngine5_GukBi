@@ -25,7 +25,10 @@ public:
 	//shared_ptr<Collider> GetCollider() { return shared_from_this(); }
 
 	void TwoBall_Skill();
+	void More_Life();
+	void Game_Clear();
 
+	map<int, function<void(void)>> GetSkill() { return _skills; }
 
 private:
 	HBRUSH _brush;
@@ -34,6 +37,9 @@ private:
 	vector<shared_ptr<ArkanoidBall>> _balls;
 
 	vector<shared_ptr<CircleCollider>> _lifes;
+
+	map<int, function<void(void)>> _skills;
+
 
 	bool _gameOver = false;
 };

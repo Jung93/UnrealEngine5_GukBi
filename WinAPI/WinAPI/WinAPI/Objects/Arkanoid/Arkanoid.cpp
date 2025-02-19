@@ -29,8 +29,12 @@ void Arkanoid::Init(shared_ptr<ArkanoidPlayer> bar)
 	for (int i = 0; i < 3; i++)
 	{
 		shared_ptr<ArkanoidItem> item = make_shared<ArkanoidItem>();
-		item->SetSkill(std::bind(&ArkanoidPlayer::TwoBall_Skill, bar));
+		auto func = bar->GetSkill().find(i)->second;
+		item->SetSkill(func);
+		//item->SetSkill(std::bind(&ArkanoidPlayer::TwoBall_Skill, bar));
 		_items.push_back(item);
+
+
 
 		int randY = rand() % _blocks.size();
 		int randX = rand() % _blocks[randY].size();
