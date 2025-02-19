@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\user\\Unreal\\GukBi\\Unreal5\\UEGukbi\\Source\\UEGukbi\\UEGukbi.Build.cs",
+		"C:\\Users\\user\\Unreal\\GukBi\\Unreal5\\UEGukbi\\Source\\UEGukbi.Target.cs",
+		"C:\\Users\\user\\Unreal\\GukBi\\Unreal5\\UEGukbi\\Source\\UEGukbiEditor.Target.cs"
+	],
+	"EngineVersion": "5.4.4"
+}

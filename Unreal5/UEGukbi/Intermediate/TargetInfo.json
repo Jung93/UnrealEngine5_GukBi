@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "UEGukbi",
+			"Path": "..\\Source\\UEGukbi.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "UEGukbiEditor",
+			"Path": "..\\Source\\UEGukbiEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
