@@ -3,6 +3,9 @@
 
 #include "MyTutoPawn.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputActionValue.h"
 
 // Sets default values
 AMyTutoPawn::AMyTutoPawn()
@@ -41,29 +44,7 @@ void AMyTutoPawn::Tick(float DeltaTime)
 	//UE_LOG(LogTemp, Error, TEXT("Deltatime : %f"), DeltaTime);
 
 
-	if (GetAttachParentActor() == nullptr)
-	{
-		FVector curLocation = GetActorLocation();
-		FVector destLocation = curLocation + FVector(0, _moveSpeed, 0);
-		SetActorLocation(destLocation);
 
-		////Ptich(Y), Yaw(Z), Roll(X)
-		//FRotator rot = FRotator(0, 1, 0);
-		//AddActorLocalRotation(rot * _rotationSpeed * DeltaTime);
-	}
-	else
-	{
-		FVector parentV = GetAttachParentActor()->GetActorLocation();
-		FVector myV = GetActorLocation();//WorldLocation
-
-		FRotator rot = UKismetMathLibrary::FindLookAtRotation(myV, parentV);
-
-		SetActorRotation(rot);
-	}
-
-	//Ptich(Y), Yaw(Z), Roll(X)
-	FRotator rot = FRotator(0, 1, 0);
-	AddActorLocalRotation(rot * _rotationSpeed * DeltaTime);
 
 }
 
@@ -71,6 +52,42 @@ void AMyTutoPawn::Tick(float DeltaTime)
 void AMyTutoPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	UEnhancedInputComponent* enhancedInputCompnent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	if (enhancedInputCompnent)
+	{
+		enhancedInputCompnent->BindAction(_moveAction, ETriggerEvent::Triggered, this, &AMyTutoPawn::Move);
+	}
+}
+
+void AMyTutoPawn::Temp()
+{
+	UE_LOG(LogTemp, Error, TEXT("Temp"));
+}
+
+void AMyTutoPawn::Move(const FInputActionValue& value)
+{
+	FVector2D moveVector = value.Get<FVector2D>();
+
+	if (Controller != nullptr)
+	{
+		if (moveVector.Length() > 0.01f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Y : %f"), moveVector.Y);
+			UE_LOG(LogTemp, Warning, TEXT("X : %f"), moveVector.X);
+		}
+
+		FVector forWard = GetActorForwardVector() * moveVector.Y * 100.0f;
+		FVector right = GetActorRightVector() * moveVector.X * 100.0f;
+
+		FVector newLocation = GetActorLocation() + forWard + right;
+
+		SetActorLocation(newLocation);
+		//AddMovementInput(GetActorForwardVector(), moveVector.Y);
+		//AddMovementInput(GetActorRightVector(), moveVector.X);
+
+	}
 
 }
 

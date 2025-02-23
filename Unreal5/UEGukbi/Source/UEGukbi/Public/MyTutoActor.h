@@ -29,7 +29,8 @@ public:
 private:
 	UPROPERTY()
 	UStaticMeshComponent* _mesh;
-	float _rotationSpeed = 300.0f;
+	float _rotationSpeed = -10.0f;
+	float _moveSpeed = 10.0;
 
 	//actor가 월드에 존재하려면 transform이 있어야한다
 	//1. mesh가 있어야한다

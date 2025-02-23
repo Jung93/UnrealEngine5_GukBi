@@ -42,6 +42,12 @@
     <Filter Include="Source\UEGukbi\Private">
       <UniqueIdentifier>{28ACBD98-F679-317A-94CE-C03F79AFC24F}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameModeBase.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayerController.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyTutoActor.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
@@ -51,11 +57,18 @@
     <Filter Include="Source\UEGukbi\Public">
       <UniqueIdentifier>{BAE1499B-6A91-3272-9A55-BD7ABEF38973}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameModeBase.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayerController.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyTutoActor.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyTutoPawn.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
