@@ -157,16 +157,16 @@ void AMyCharacter::Attack_Hit()
 	float attackRange = 400.0f;
 	float radius = 100.0f;
 
-	FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
+	FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));//FQuat(GetActorForwardVector().ToOrientationQuat());// *FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
 
 	bool bResult = GetWorld()->SweepSingleByChannel
 	(
 		OUT hitResult,
 		GetActorLocation(),
-		GetActorLocation() + GetActorForwardVector() * attackRange,
+		GetActorLocation() + GetActorForwardVector() * (attackRange),
 		Rotation,
 		ECC_GameTraceChannel2,
-		FCollisionShape::MakeCapsule(radius, attackRange * 0.5f),
+		FCollisionShape::MakeCapsule(radius, attackRange),
 		params
 	);
 
@@ -177,6 +177,6 @@ void AMyCharacter::Attack_Hit()
 		drawColor = FColor::Red;
 	}
 
-	DrawDebugCapsule(GetWorld(), GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f), attackRange * 0.5f, radius, Rotation, drawColor, false, 1.0f);
+	DrawDebugCapsule(GetWorld(), GetActorLocation(), attackRange *0.5f, radius, Rotation, drawColor, false, 1.0f);
 }
 
