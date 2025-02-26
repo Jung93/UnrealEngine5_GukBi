@@ -11,6 +11,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "MyAnimInstance.h"
+
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
@@ -36,7 +38,17 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	_animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
+
+	//Delegate 바인딩 연습. delegate는 UI 쪽에서 많이 쓰임
+	_animInstance->_attackStart.BindUObject(this, &AMyCharacter::TestDelegate);
+	_animInstance->_attackStart2.BindUObject(this, &AMyCharacter::TestDelegateInt);
+	_animInstance->_attackStart3.AddDynamic(this, &AMyCharacter::TestDelegate);
+	_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::AttackEnd);
+
+	_animInstance->_hitEvent.AddUObject(this, &AMyCharacter::Attack_Hit);
 }
+
 
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)
@@ -56,12 +68,16 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	{
 		enhancedInputCompnent->BindAction(_moveAction, ETriggerEvent::Triggered, this, &AMyCharacter::Move);
 		enhancedInputCompnent->BindAction(_lookAction, ETriggerEvent::Triggered, this, &AMyCharacter::Look);
+		enhancedInputCompnent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &AMyCharacter::Jump);
+		enhancedInputCompnent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &AMyCharacter::Attack);
 	}
 
 }
 
 void AMyCharacter::Move(const FInputActionValue& value)
 {
+	if (_isAttack)
+		return;
 	FVector2D moveVector = value.Get<FVector2D>();
 
 	if (Controller != nullptr)
@@ -74,14 +90,14 @@ void AMyCharacter::Move(const FInputActionValue& value)
 			FVector forWard = GetActorForwardVector();
 			FVector right = GetActorRightVector();
 
+			_vertical = moveVector.Y;
+			_horizontal = moveVector.X;
+
 			AddMovementInput(forWard, moveVector.Y * _speed);
 			AddMovementInput(right, moveVector.X * _speed);
 
+
 		}
-
-
-
-
 	}
 }
 
@@ -94,7 +110,73 @@ void AMyCharacter::Look(const FInputActionValue& value)
 		AddControllerYawInput(lookAxisVector.X);
 
 	}
+}
 
+void AMyCharacter::Attack(const FInputActionValue& value)
+{
+	if (_isAttack)
+		return;
 
+	bool isPress = value.Get<bool>();
+
+	if (isPress)
+	{
+		_isAttack = true;
+
+		_curAttackSection = (_curAttackSection) % 2 + 1;
+
+		_animInstance->PlayAnimMontage();
+		_animInstance->JumpToSection(_curAttackSection);
+	}
+}
+
+void AMyCharacter::TestDelegate()
+{
+	UE_LOG(LogTemp, Warning, TEXT("delegate call"))
+
+}
+
+int AMyCharacter::TestDelegateInt(int a = 1, int b = 1)
+{
+	int result = a + b;
+	UE_LOG(LogTemp, Warning, TEXT("delegate call : %d"), result)
+
+	return a * b;
+}
+
+void AMyCharacter::AttackEnd(UAnimMontage* Montage, bool bInterrupted)
+{
+	_isAttack = false;
+}
+
+void AMyCharacter::Attack_Hit()
+{
+	FHitResult hitResult;
+	FCollisionQueryParams params(NAME_None, false, this);
+
+	float attackRange = 400.0f;
+	float radius = 100.0f;
+
+	FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
+
+	bool bResult = GetWorld()->SweepSingleByChannel
+	(
+		OUT hitResult,
+		GetActorLocation(),
+		GetActorLocation() + GetActorForwardVector() * attackRange,
+		Rotation,
+		ECC_GameTraceChannel2,
+		FCollisionShape::MakeCapsule(radius, attackRange * 0.5f),
+		params
+	);
+
+	FColor drawColor = FColor::Green;
+
+	if (bResult && hitResult.GetActor()->IsValidLowLevel())
+	{
+		drawColor = FColor::Red;
+	}
+
+	DrawDebugCapsule(GetWorld(), GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f), attackRange * 0.5f, radius, Rotation, drawColor, false, 1.0f);
 }
 

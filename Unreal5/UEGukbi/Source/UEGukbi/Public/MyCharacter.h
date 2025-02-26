@@ -26,10 +26,26 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
 	void Move(const struct FInputActionValue& value);
-
+	UFUNCTION()
 	void Look(const struct FInputActionValue& value);
+	UFUNCTION()
+	void Attack(const struct FInputActionValue& value);
 
+	UFUNCTION()//이게 없으면 delegate에 bind 못 함
+	void TestDelegate();
+
+	UFUNCTION()
+	int TestDelegateInt(int a, int b);
+
+	UFUNCTION()
+	void AttackEnd(class UAnimMontage* Montage, bool bInterrupted);
+
+	float GetMyVertical() { return _vertical; }
+	float GetMyHorizontal() { return _horizontal; }
+
+	void Attack_Hit();
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -39,9 +55,15 @@ private:
 	class UInputAction* _lookAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* _camera;
+	class UInputAction* _jumpAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _attackAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* _camera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* _springArm;
 
 	//언리얼의 핵심구조
@@ -53,8 +75,18 @@ private:
 	//2. Scene 컴포넌트
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	float _speed = 10.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	bool _isAttack;
+
+	UPROPERTY()
+	class UMyAnimInstance* _animInstance;
+
+	int32 _curAttackSection = 1;
+
+	float _vertical = 0.0f;
+	float _horizontal = 0.0f;
 
 };
