@@ -29,6 +29,9 @@ public:
 	UFUNCTION()
 	void OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromWeep, const FHitResult& SweepResult);
 
+	UFUNCTION()
+	void OnMyCharacterOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* _mesh;
