@@ -271,7 +271,13 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameModeBase.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyItem.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayerController.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyStatComponent.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyTutoActor.cpp">
@@ -283,7 +289,9 @@
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyAnimInstance.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyCharacter.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameModeBase.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyItem.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayerController.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyStatComponent.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyTutoActor.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyTutoPawn.h"/>
   </ItemGroup>

@@ -42,10 +42,16 @@ public:
 	UFUNCTION()
 	void AttackEnd(class UAnimMontage* Montage, bool bInterrupted);
 
+
+
+
+
 	float GetMyVertical() { return _vertical; }
 	float GetMyHorizontal() { return _horizontal; }
 
 	void Attack_Hit();
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	void AddHp(float amount);
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -66,6 +72,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* _springArm;
 
+	UPROPERTY()
+	class UMyAnimInstance* _animInstance;
+
 	//언리얼의 핵심구조
 	//1. 상속
 	//2. 컴포넌트
@@ -76,13 +85,13 @@ private:
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
-	float _speed = 10.0f;
+	class UMyStatComponent* _statComponent;
+
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	bool _isAttack;
 
-	UPROPERTY()
-	class UMyAnimInstance* _animInstance;
 
 	int32 _curAttackSection = 1;
 

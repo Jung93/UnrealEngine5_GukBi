@@ -13,6 +13,10 @@
 
 #include "MyAnimInstance.h"
 
+#include "Engine/DamageEvents.h"
+
+#include "MyStatComponent.h"
+
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
@@ -31,6 +35,8 @@ AMyCharacter::AMyCharacter()
 
 	_springArm->TargetArmLength = 500.0f;
 	_springArm->SetRelativeRotation(FRotator(-35.0f, 0.0f, 0.0f));
+
+	_statComponent = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +53,7 @@ void AMyCharacter::BeginPlay()
 	_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::AttackEnd);
 
 	_animInstance->_hitEvent.AddUObject(this, &AMyCharacter::Attack_Hit);
+
 }
 
 
@@ -93,8 +100,8 @@ void AMyCharacter::Move(const FInputActionValue& value)
 			_vertical = moveVector.Y;
 			_horizontal = moveVector.X;
 
-			AddMovementInput(forWard, moveVector.Y * _speed);
-			AddMovementInput(right, moveVector.X * _speed);
+			AddMovementInput(forWard, moveVector.Y * _statComponent->GetSpeed());
+			AddMovementInput(right, moveVector.X * _statComponent->GetSpeed());
 
 
 		}
@@ -108,7 +115,7 @@ void AMyCharacter::Look(const FInputActionValue& value)
 	if (Controller != nullptr)
 	{
 		AddControllerYawInput(lookAxisVector.X);
-
+		AddControllerPitchInput(-lookAxisVector.Y);
 	}
 }
 
@@ -154,19 +161,24 @@ void AMyCharacter::Attack_Hit()
 	FHitResult hitResult;
 	FCollisionQueryParams params(NAME_None, false, this);
 
-	float attackRange = 400.0f;
+	float attackRange = 800.0f;
 	float radius = 100.0f;
 
-	FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));//FQuat(GetActorForwardVector().ToOrientationQuat());// *FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
+	//FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));//FQuat(GetActorForwardVector().ToOrientationQuat());// *FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
+	FQuat Rotation = FQuat::FindBetweenVectors(FVector(0, 0, 1), GetActorForwardVector());
+
+	FVector center = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
+	FVector start = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
+	FVector end = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
 
 	bool bResult = GetWorld()->SweepSingleByChannel
 	(
 		OUT hitResult,
-		GetActorLocation(),
-		GetActorLocation() + GetActorForwardVector() * (attackRange),
+		start,//같은 값으로 두면 capsule이 움직이지 않고 멈춰선 채 충돌감지
+		end,
 		Rotation,
 		ECC_GameTraceChannel2,
-		FCollisionShape::MakeCapsule(radius, attackRange),
+		FCollisionShape::MakeCapsule(radius, attackRange * 0.5f),
 		params
 	);
 
@@ -175,8 +187,30 @@ void AMyCharacter::Attack_Hit()
 	if (bResult && hitResult.GetActor()->IsValidLowLevel())
 	{
 		drawColor = FColor::Red;
+
+		AMyCharacter* victim = Cast<AMyCharacter>(hitResult.GetActor());
+
+		if (victim != nullptr)
+		{
+			FDamageEvent damageEvent = FDamageEvent();
+			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
+		}
+
 	}
 
-	DrawDebugCapsule(GetWorld(), GetActorLocation(), attackRange *0.5f, radius, Rotation, drawColor, false, 1.0f);
+	DrawDebugCapsule(GetWorld(), center, attackRange *0.5f, radius, Rotation, drawColor, false, 1.0f);
+}
+
+float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	_statComponent->AddCurHp(-Damage);
+
+	return Damage;
+}
+
+void AMyCharacter::AddHp(float amount)
+{
+	_statComponent->AddCurHp(amount);
+
 }
 
