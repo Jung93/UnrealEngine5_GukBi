@@ -16,6 +16,8 @@
 #include "Engine/DamageEvents.h"
 
 #include "MyStatComponent.h"
+#include "Components/WidgetComponent.h"
+#include "MyHpBar.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -37,6 +39,16 @@ AMyCharacter::AMyCharacter()
 	_springArm->SetRelativeRotation(FRotator(-35.0f, 0.0f, 0.0f));
 
 	_statComponent = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
+	_hpBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+	_hpBarWidget->SetupAttachment(GetMesh());
+	_hpBarWidget->SetWidgetSpace(EWidgetSpace::World);
+
+	static ConstructorHelpers::FClassFinder<UMyHpBar> hpBarClass(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrints/BP_MyHpBar.BP_MyHpBar_C'"));
+
+	if(hpBarClass.Succeeded())
+	{
+		_hpBarWidget->SetWidgetClass(hpBarClass.Class);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -54,6 +66,15 @@ void AMyCharacter::BeginPlay()
 
 	_animInstance->_hitEvent.AddUObject(this, &AMyCharacter::Attack_Hit);
 
+	auto hpBar = Cast<UMyHpBar>(_hpBarWidget->GetWidget());
+
+	if (hpBar != nullptr)
+	{
+		_statComponent->_hpChanged.AddUObject(hpBar, &UMyHpBar::SetHpBarValue);
+
+	}
+
+
 }
 
 
@@ -61,6 +82,20 @@ void AMyCharacter::BeginPlay()
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	auto playerCameraManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+
+	if (playerCameraManager != nullptr)
+	{
+		FVector hpBarLocation = _hpBarWidget->GetComponentLocation();
+		FVector cameraLocation = playerCameraManager->GetCameraLocation();
+
+		FRotator rot = UKismetMathLibrary::FindLookAtRotation(hpBarLocation, cameraLocation);
+
+		_hpBarWidget->SetWorldRotation(rot);
+
+	}
+
 
 }
 
@@ -91,9 +126,6 @@ void AMyCharacter::Move(const FInputActionValue& value)
 	{
 		if (moveVector.Length() > 0.01f)
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Y : %f"), moveVector.Y);
-			//UE_LOG(LogTemp, Warning, TEXT("X : %f"), moveVector.X);
-
 			FVector forWard = GetActorForwardVector();
 			FVector right = GetActorRightVector();
 
@@ -102,8 +134,6 @@ void AMyCharacter::Move(const FInputActionValue& value)
 
 			AddMovementInput(forWard, moveVector.Y * _statComponent->GetSpeed());
 			AddMovementInput(right, moveVector.X * _statComponent->GetSpeed());
-
-
 		}
 	}
 }
@@ -164,7 +194,6 @@ void AMyCharacter::Attack_Hit()
 	float attackRange = 800.0f;
 	float radius = 100.0f;
 
-	//FQuat Rotation = FQuat(GetActorForwardVector().ToOrientationQuat()) * FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));//FQuat(GetActorForwardVector().ToOrientationQuat());// *FQuat(FVector::RightVector, FMath::DegreesToRadians(90.0f));
 	FQuat Rotation = FQuat::FindBetweenVectors(FVector(0, 0, 1), GetActorForwardVector());
 
 	FVector center = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);

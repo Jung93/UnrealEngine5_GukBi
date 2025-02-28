@@ -48,10 +48,22 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyCharacter.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameInstance.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameModeBase.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyHpBar.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyItem.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyMonster.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayer.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayerController.cpp">
@@ -75,10 +87,22 @@
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyCharacter.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameInstance.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameModeBase.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyHpBar.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyItem.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyMonster.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayer.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayerController.h">
