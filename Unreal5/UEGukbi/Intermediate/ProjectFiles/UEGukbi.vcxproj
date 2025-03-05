@@ -277,10 +277,19 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyHpBar.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyInventoryComponent.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyInventoryUI.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyItem.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyMonster.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyMonsterAnimInstance.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayer.cpp">
@@ -303,8 +312,11 @@
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameInstance.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameModeBase.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyHpBar.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyInventoryComponent.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyInventoryUI.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyItem.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyMonster.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyMonsterAnimInstance.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayer.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayerController.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyStatComponent.h"/>

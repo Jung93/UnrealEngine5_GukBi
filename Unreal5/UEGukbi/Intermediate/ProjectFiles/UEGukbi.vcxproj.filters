@@ -57,10 +57,19 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyHpBar.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyInventoryComponent.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyInventoryUI.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyItem.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyMonster.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyMonsterAnimInstance.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyPlayer.cpp">
@@ -96,10 +105,19 @@
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyHpBar.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyInventoryComponent.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyInventoryUI.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyItem.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyMonster.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyMonsterAnimInstance.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyPlayer.h">

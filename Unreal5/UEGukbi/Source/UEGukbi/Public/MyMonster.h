@@ -9,9 +9,37 @@
 /**
  * 
  */
+
+
 UCLASS()
 class UEGUKBI_API AMyMonster : public AMyCharacter
 {
 	GENERATED_BODY()
 	
+public:
+	AMyMonster();
+
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void SpawnItem();
+
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	class UWidgetComponent* _hpBarWidget;
+
+	//UPROPERTY(EditAnywhere, Category = "Item")
+	//TSubclassOf<class AMyItem> _item;
+
+
+
 };

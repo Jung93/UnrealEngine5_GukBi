@@ -21,19 +21,11 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		_speed = character->GetVelocity().Size();
 
-		if (character->GetCharacterMovement()->IsFalling())
-		{
-			_isJump = true;
-		}
-		else
-		{
-			_isJump = false;
-		}
+		_isJump = character->GetCharacterMovement()->IsFalling();
 
 		_vertical = character->GetMyVertical();
 		_horizontal = character->GetMyHorizontal();
-
-
+		_isDead = character->IsDead();
 	}
 
 }
@@ -61,8 +53,15 @@ void UMyAnimInstance::AnimNotify_Attack_Hit()
 	//AMyCharacter* character = Cast<AMyCharacter>(pawn);
 
 	//character->Attack_Hit();
+	if (_hitEvent.IsBound())
+		_hitEvent.Broadcast();
 
-	_hitEvent.Broadcast();
+}
+
+void UMyAnimInstance::AnimNotify_Dead()
+{
+	if (_deadEvent.IsBound())
+		_deadEvent.Broadcast();
 
 }
 

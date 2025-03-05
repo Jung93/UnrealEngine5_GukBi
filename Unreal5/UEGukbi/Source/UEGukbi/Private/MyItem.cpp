@@ -5,6 +5,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "MyCharacter.h"
+#include "MyPlayer.h"
 #include "MyPlayerController.h"
 
 // Sets default values
@@ -13,8 +14,8 @@ AMyItem::AMyItem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	_mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	_collider = CreateDefaultSubobject<UCapsuleComponent>("Collider");
+	_mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 
 	_mesh->SetupAttachment(_collider);
 
@@ -35,6 +36,8 @@ void AMyItem::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_info.item = this;
+
 }
 
 // Called every frame
@@ -47,12 +50,17 @@ void AMyItem::Tick(float DeltaTime)
 void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromWeep, const FHitResult& SweepResult)
 {
 
-	auto character = Cast<AMyCharacter>(OtherActor);
+	auto character = Cast<AMyPlayer>(OtherActor);
+
+	if (character == nullptr)
+		return;
+
 	auto player = Cast<AMyPlayerController>(character->GetController());
 
 	if (character != nullptr && player != nullptr)
 	{
 		character->AddHp(30.0f);
+		character->AddITem(this);
 
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
@@ -63,5 +71,11 @@ void AMyItem::OnMyCharacterOverlapEnd(UPrimitiveComponent* OverlappedComponent, 
 {
 	UE_LOG(LogTemp, Warning, TEXT("asdasdasd"));
 
+}
+
+void AMyItem::ItemDrop()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
 }
 
