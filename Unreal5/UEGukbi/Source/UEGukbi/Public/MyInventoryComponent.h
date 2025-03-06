@@ -35,6 +35,8 @@ public:
 	FItemAdd itemAddEvent;
 	FItemDrop itemDropEvent;
 
+	bool IsInventoryFull();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess = "true"))
 	TArray<FMyItemInfo> _items; 

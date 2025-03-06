@@ -28,7 +28,6 @@ FMyStatData UMyGameInstance::GetStat_Level(int32 level)
 	FString name = "Level_" + FString::FromInt(level);
 	auto row = _statTable->FindRow<FMyStatData>(*name, TEXT(""));
 
-	UE_LOG(LogTemp, Warning, TEXT("Level : %d, Hp : %d, Atk : %d"), row->level, row->hp, row->atk)
 
 	return *row;
 }

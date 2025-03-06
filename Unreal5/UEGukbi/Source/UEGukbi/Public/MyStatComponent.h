@@ -18,6 +18,8 @@ struct FMyStatData : public FTableRowBase
 	int32 hp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 atk;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 requiredExp;
 };
 
 
@@ -43,6 +45,9 @@ public:
 	int32 GetCurHp() { return _curHp; }
 	int32 GetAtk() { return _atk; }
 	int32 AddCurHp(float Amount);
+	int32 GetCurExp() { return _curExp; }
+	void AddCurExp(int32 exp);
+	void LevelUp();
 	float GetSpeed() { return _speed; }
 
 	bool IsDead() { return _curHp <= 0; }
@@ -62,6 +67,11 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	int32 _atk = 10;
 
+	UPROPERTY(VisibleAnywhere, Category = "Stat", meta = (AllowPrivateAccess = "true"))
+	int32 _curExp = 0;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stat", meta = (AllowPrivateAccess = "true"))
 	float _speed = 10.0f;
+
+
 };

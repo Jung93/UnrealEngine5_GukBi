@@ -166,14 +166,19 @@ void AMyPlayer::DropItem(const FInputActionValue& value)
 }
 
 
-void AMyPlayer::AddITem(AMyItem* item)
+bool AMyPlayer::AddItem(AMyItem* item)
 {
 	if (item && _inventoryComponent)
 	{
-		auto info = item->GetItemInfo();
-		_inventoryComponent->AddItem(info.item, info.itemId, info.type);
+		if (!_inventoryComponent->IsInventoryFull())
+		{
+			auto info = item->GetItemInfo();
+			_inventoryComponent->AddItem(info.item, info.itemId, info.type);
+			return true;
+		}
 	}
 
+	return false;
 	//_items.Add(item);
 	//UE_LOG(LogTemp, Log, TEXT("Items count : %d"), _items.Num());
 }

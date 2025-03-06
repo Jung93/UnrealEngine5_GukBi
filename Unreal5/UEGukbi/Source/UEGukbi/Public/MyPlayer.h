@@ -39,7 +39,7 @@ public:
 	UFUNCTION()
 	void DropItem(const struct FInputActionValue& value);
 
-	void AddITem(class AMyItem* item);
+	bool AddItem(class AMyItem* item);
 
 	FVector GetLocation() const { return GetActorLocation(); }
 
@@ -72,5 +72,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess = "true"))
 	class UMyInventoryComponent* _inventoryComponent;
+
 
 };

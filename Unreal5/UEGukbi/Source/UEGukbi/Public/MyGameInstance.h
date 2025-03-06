@@ -22,6 +22,7 @@ public:
 	virtual void Init() override;
 
 	FMyStatData GetStat_Level(int32 level);
+	int32 GetTableSize() { return _statTable->GetRowMap().Num(); }
 
 private:
 	UPROPERTY()

@@ -37,6 +37,7 @@ public:
 	void DeadEvent();
 
 	void AddHp(float amount);
+	void AddExp(int32 amount);
 
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 

@@ -31,12 +31,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void SpawnItem();
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	class UWidgetComponent* _hpBarWidget;
 
+	UPROPERTY(EditAnywhere, Category = "EXP", meta = (AllowPrivateAccess = "true"))
+	int32 _monsterExp;
 	//UPROPERTY(EditAnywhere, Category = "Item")
 	//TSubclassOf<class AMyItem> _item;
 

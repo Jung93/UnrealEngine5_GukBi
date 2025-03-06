@@ -59,17 +59,20 @@ void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 	if (character != nullptr && player != nullptr)
 	{
-		character->AddHp(30.0f);
-		character->AddITem(this);
+		bool addSucceed = character->AddItem(this);
+		if (addSucceed)
+		{
+			character->AddHp(30.0f);
 
-		SetActorHiddenInGame(true);
-		SetActorEnableCollision(false);
+			SetActorHiddenInGame(true);
+			SetActorEnableCollision(false);
+		}
+	
 	}
 }
 
 void AMyItem::OnMyCharacterOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("asdasdasd"));
 
 }
 

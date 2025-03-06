@@ -77,6 +77,7 @@ FMyItemInfo UMyInventoryComponent::DropItem(AMyPlayer* player)
 	if (targetIndex == INDEX_NONE)
 		return FMyItemInfo();
 
+	result = _items[targetIndex];
 
 	_items[targetIndex].item->SetActorHiddenInGame(false);
 	_items[targetIndex].item->SetActorEnableCollision(true);
@@ -86,8 +87,8 @@ FMyItemInfo UMyInventoryComponent::DropItem(AMyPlayer* player)
 
 	_items[targetIndex].item->SetActorLocation(location + randomLocation);
 
-	_items[targetIndex].itemId = -1;
-	_items[targetIndex].type = FMyItemType::NONE;
+
+	_items[targetIndex] = FMyItemInfo();
 	itemDropEvent.Broadcast(targetIndex);
 
 
@@ -97,5 +98,21 @@ FMyItemInfo UMyInventoryComponent::DropItem(AMyPlayer* player)
 FMyItemInfo UMyInventoryComponent::DropItem(int32 index)
 {
 	return FMyItemInfo();
+}
+
+bool UMyInventoryComponent::IsInventoryFull()
+{
+	FMyItemInfo temp;
+	auto target = _items.FindByPredicate([temp](const FMyItemInfo info)->bool
+		{
+			if (info.itemId == temp.itemId && info.type == temp.type)
+				return true;
+			return false;
+		});
+
+	if (target == nullptr)
+		return true;
+
+	return false;
 }
 

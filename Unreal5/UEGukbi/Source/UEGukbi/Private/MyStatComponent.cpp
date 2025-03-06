@@ -68,8 +68,54 @@ int32 UMyStatComponent::AddCurHp(float Amount)
 		_hpChanged.Broadcast(ratio);
 
 
-	//UE_LOG(LogTemp, Warning, TEXT("Name : %s, HP : %d"), *actor->GetName(), _curHp);
+	UE_LOG(LogTemp, Warning, TEXT("Name : %s, HP : %d"), *actor->GetName(), _curHp);
 
 	return before - _curHp;
+}
+
+void UMyStatComponent::AddCurExp(int32 exp)
+{
+	_curExp += exp;
+
+	auto gameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	if (gameInstance != nullptr)
+	{
+		auto statInfo = gameInstance->GetStat_Level(_level);
+
+
+		int32 requiredExp = statInfo.requiredExp;
+
+		int32 tableSize = gameInstance->GetTableSize();
+
+		if (_level < tableSize)
+		{
+			if (_curExp >= requiredExp)
+			{
+				LevelUp();
+
+				UE_LOG(LogTemp, Warning, TEXT("Level : %d, HP : %d, Atk : %d, Exp : %d")
+					, _level, _curHp, _atk, _curExp);
+			}
+		}
+	}
+
+
+
+}
+
+void UMyStatComponent::LevelUp()
+{
+	auto gameInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+
+	if (gameInstance != nullptr)
+	{
+		_level++;
+		auto statInfo = gameInstance->GetStat_Level(_level);
+
+		_curHp = statInfo.hp;
+		_maxHp = statInfo.hp;
+		_atk = statInfo.atk;
+
+	}
 }
 

@@ -9,6 +9,7 @@
 #include "MyAnimInstance.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "MyPlayerController.h"
+#include "MyPlayer.h"
 
 AMyMonster::AMyMonster()
 {
@@ -61,6 +62,31 @@ void AMyMonster::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+float AMyMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	_statComponent->AddCurHp(-Damage);
+
+	auto attackerController = Cast<APlayerController>(EventInstigator);
+
+	if (attackerController)
+	{
+		// Player...
+		if (IsDead())
+		{
+			UE_LOG(LogTemp, Error, TEXT("Be Dead by Player"));
+
+			auto player = Cast<AMyCharacter>(DamageCauser);
+
+			if (player)
+			{
+				player->AddExp(_monsterExp);
+			}
+		}
+	}
+
+	return Damage;
 }
 
 //void AMyMonster::SpawnItem()

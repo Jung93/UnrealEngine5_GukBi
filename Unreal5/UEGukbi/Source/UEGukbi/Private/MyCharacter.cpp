@@ -128,6 +128,7 @@ float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 		if (IsDead())
 		{
 			UE_LOG(LogTemp, Error, TEXT("Be Dead by Player"));
+
 		}
 	}
 
@@ -138,6 +139,11 @@ void AMyCharacter::AddHp(float amount)
 {
 	_statComponent->AddCurHp(amount);
 
+}
+
+void AMyCharacter::AddExp(int32 amount)
+{
+	_statComponent->AddCurExp(amount);
 }
 
 bool AMyCharacter::IsDead()
