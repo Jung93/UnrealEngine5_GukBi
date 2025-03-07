@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyAnimInstance.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyButton.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyCharacter.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
@@ -91,6 +94,9 @@
       <UniqueIdentifier>{BAE1499B-6A91-3272-9A55-BD7ABEF38973}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyAnimInstance.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyButton.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyCharacter.h">

@@ -11,6 +11,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "MyPlayerController.h"
 #include "MyAnimInstance.h"
 #include "MyStatComponent.h"
 
@@ -18,6 +19,8 @@
 #include "Blueprint/UserWidget.h"
 #include "MyInventoryUI.h"
 #include "MyInventoryComponent.h"
+
+#include "Components/Button.h"
 
 AMyPlayer::AMyPlayer()
 {
@@ -55,17 +58,16 @@ void AMyPlayer::PostInitializeComponents()
 	auto inventoryUI = Cast<UMyInventoryUI>(_inventoryWidget);
 	if (inventoryUI)
 	{
+		inventoryUI->_inventoryComponent = _inventoryComponent;
 		_inventoryComponent->itemAddEvent.AddUObject(inventoryUI, &UMyInventoryUI::SetItem_Index);
 		_inventoryComponent->itemDropEvent.AddUObject(inventoryUI, &UMyInventoryUI::DropItem);
+		inventoryUI->Drop->OnClicked.AddDynamic(this, &AMyPlayer::Drop);
 	}
 }
 
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (_inventoryWidget)
-		_inventoryWidget->AddToViewport();
 
 
 }
@@ -90,6 +92,7 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		enhancedInputCompnent->BindAction(_jumpAction, ETriggerEvent::Triggered, this, &AMyPlayer::Jump);
 		enhancedInputCompnent->BindAction(_attackAction, ETriggerEvent::Triggered, this, &AMyPlayer::Attack);
 		enhancedInputCompnent->BindAction(_itemAction, ETriggerEvent::Triggered, this, &AMyPlayer::DropItem);
+		enhancedInputCompnent->BindAction(_inventoryAction, ETriggerEvent::Triggered, this, &AMyPlayer::OpenInventory);
 	}
 
 }
@@ -157,12 +160,33 @@ void AMyPlayer::DropItem(const FInputActionValue& value)
 	{
 		auto itemInfo = _inventoryComponent->DropItem(this);
 
-
-
-
-		UE_LOG(LogTemp, Error, TEXT("ID : %d"), itemInfo.itemId);
 	}
 
+}
+
+void AMyPlayer::OpenInventory(const FInputActionValue& value)
+{
+	bool isPress = value.Get<bool>();
+
+	if (isPress)
+	{
+		auto controller = Cast<AMyPlayerController>(GetController());
+		if (_isInventoryOpen)
+		{
+			if(controller)
+				controller->HideUI();
+			_inventoryWidget->RemoveFromViewport();
+		}
+		else
+		{
+			if (controller)
+				controller->ShowUI();
+			_inventoryWidget->AddToViewport();
+		}
+
+		_isInventoryOpen = !_isInventoryOpen;
+
+	}
 }
 
 
@@ -172,13 +196,22 @@ bool AMyPlayer::AddItem(AMyItem* item)
 	{
 		if (!_inventoryComponent->IsInventoryFull())
 		{
-			auto info = item->GetItemInfo();
-			_inventoryComponent->AddItem(info.item, info.itemId, info.type);
+			_inventoryComponent->AddItem(item);
 			return true;
 		}
 	}
 
 	return false;
-	//_items.Add(item);
-	//UE_LOG(LogTemp, Log, TEXT("Items count : %d"), _items.Num());
+}
+
+void AMyPlayer::Drop()
+{
+
+	int32 curDropIndex = -1;
+	auto invenUI = Cast<UMyInventoryUI>(_inventoryWidget);
+	if (invenUI)
+		curDropIndex = invenUI->_curIndex;
+
+	_inventoryComponent->DropItem(curDropIndex, this);
+	invenUI->_curIndex = -1;
 }

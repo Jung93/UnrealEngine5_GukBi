@@ -3,6 +3,7 @@
 
 #include "MyInventoryComponent.h"
 #include "MyPlayer.h"
+#include "MyItem.h"
 
 // Sets default values for this component's properties
 UMyInventoryComponent::UMyInventoryComponent()
@@ -34,17 +35,11 @@ void UMyInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	// ...
 }
 
-void UMyInventoryComponent::AddItem(AMyItem* itemAddress, int32 itemID, FMyItemType type)
+void UMyInventoryComponent::AddItem(AMyItem* itemAddress)
 {
-	FMyItemInfo addIteminfo;
-	addIteminfo.item = itemAddress;
-	addIteminfo.itemId = itemID;
-	addIteminfo.type = type;
-
-	FMyItemInfo temp;
-	auto target = _items.FindByPredicate([temp](const FMyItemInfo info)->bool
+	auto target = _items.FindByPredicate([](AMyItem* item)->bool
 		{
-			if (info.itemId == temp.itemId && info.type == temp.type)
+			if (item == nullptr)
 				return true;
 			return false;
 		});
@@ -52,60 +47,87 @@ void UMyInventoryComponent::AddItem(AMyItem* itemAddress, int32 itemID, FMyItemT
 	if (target == nullptr)
 		return;
 
-	*target = addIteminfo;
+	*target = itemAddress;
 
 	int32 targetIndex = 0;
 
 	int64 temp1 = (int64)target;
 	int64 temp2 = (int64)(&_items[0]);
-	targetIndex = (temp1 - temp2) / sizeof(FMyItemInfo);
+	targetIndex = (temp1 - temp2) / sizeof(int64);
 
-	itemAddEvent.Broadcast(targetIndex, *target);
+	itemAddEvent.Broadcast(targetIndex, itemAddress->GetItemInfo());
 }
 
-FMyItemInfo UMyInventoryComponent::DropItem(AMyPlayer* player)
+AMyItem* UMyInventoryComponent::DropItem(AMyPlayer* player)
 {
-	FMyItemInfo result;
 
-	auto targetIndex = _items.FindLastByPredicate([](const FMyItemInfo info)-> bool
+	auto targetIndex = _items.FindLastByPredicate([](AMyItem* item)-> bool
 		{
-			if (info.itemId == -1 && info.type == FMyItemType::NONE)
+			if (item == nullptr)
 				return false;
 			return true;
 		});
 
 	if (targetIndex == INDEX_NONE)
-		return FMyItemInfo();
+		return nullptr;
 
-	result = _items[targetIndex];
 
-	_items[targetIndex].item->SetActorHiddenInGame(false);
-	_items[targetIndex].item->SetActorEnableCollision(true);
+	AMyItem* dropItem = _items[targetIndex];
+
+	dropItem->SetActorHiddenInGame(false);
+	dropItem->SetActorEnableCollision(true);
 
 	FVector location = player->GetLocation();
 	FVector randomLocation = FVector(FMath::RandRange(-100.0f, 200.0f), FMath::RandRange(-250.0f, 200.0f), 0.0f);
 
-	_items[targetIndex].item->SetActorLocation(location + randomLocation);
-
-
-	_items[targetIndex] = FMyItemInfo();
+	dropItem->SetActorLocation(location + randomLocation);
 	itemDropEvent.Broadcast(targetIndex);
 
+	_items[targetIndex] = nullptr;
 
-	return result;
+	return dropItem;
 }
 
-FMyItemInfo UMyInventoryComponent::DropItem(int32 index)
+AMyItem* UMyInventoryComponent::DropItem(int32 index, AMyPlayer* player)
 {
-	return FMyItemInfo();
+	if (index >= _items.Num() || index < 0)
+		return nullptr;
+
+	if (_items[index] == nullptr)
+		return nullptr;
+
+	AMyItem* dropItem = _items[index];
+
+	dropItem->SetActorHiddenInGame(false);
+	dropItem->SetActorEnableCollision(true);
+
+	FVector location = player->GetLocation();
+	FVector randomLocation = FVector(FMath::RandRange(-100.0f, 200.0f), FMath::RandRange(-250.0f, 200.0f), 0.0f);
+
+	dropItem->SetActorLocation(location + randomLocation);
+	itemDropEvent.Broadcast(index);
+
+	_items[index] = nullptr;
+	return dropItem;
+}
+
+FMyItemInfo UMyInventoryComponent::GetItemInfoByIndex(int32 index)
+{
+	if (index < 0 || index >= _items.Num())
+		return FMyItemInfo();
+
+	if (_items[index] == nullptr)
+		return FMyItemInfo();
+
+	return _items[index]->GetItemInfo();
+
 }
 
 bool UMyInventoryComponent::IsInventoryFull()
 {
-	FMyItemInfo temp;
-	auto target = _items.FindByPredicate([temp](const FMyItemInfo info)->bool
+	auto target = _items.FindByPredicate([](AMyItem* item)->bool
 		{
-			if (info.itemId == temp.itemId && info.type == temp.type)
+			if (item == nullptr)
 				return true;
 			return false;
 		});

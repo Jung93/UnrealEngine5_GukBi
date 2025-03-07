@@ -10,7 +10,8 @@ UENUM()
 enum class FMyItemType
 {
 	NONE,
-	POTION
+	POTION,
+	BUFF
 };
 
 USTRUCT(BlueprintType)
@@ -18,8 +19,6 @@ struct FMyItemInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
-	AMyItem* item = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 itemId = -1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -53,7 +52,7 @@ public:
 	UFUNCTION()
 	void OnMyCharacterOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	const FMyItemInfo GetItemInfo() { return _info; }
+	const FMyItemInfo& GetItemInfo() { return _info; }
 
 	void ItemDrop();
 

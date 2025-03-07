@@ -38,10 +38,15 @@ public:
 	void Attack(const struct FInputActionValue& value);
 	UFUNCTION()
 	void DropItem(const struct FInputActionValue& value);
+	UFUNCTION()
+	void OpenInventory(const struct FInputActionValue& value);
 
 	bool AddItem(class AMyItem* item);
 
 	FVector GetLocation() const { return GetActorLocation(); }
+
+	UFUNCTION()
+	void Drop();
 
 
 private:
@@ -60,6 +65,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _itemAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* _inventoryAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* _camera;
 
@@ -73,5 +81,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess = "true"))
 	class UMyInventoryComponent* _inventoryComponent;
 
+	bool _isInventoryOpen = false;
 
 };

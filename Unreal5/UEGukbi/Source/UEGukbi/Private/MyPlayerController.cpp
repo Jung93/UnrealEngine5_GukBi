@@ -17,3 +17,13 @@ void AMyPlayerController::BeginPlay()
 	}
 
 }
+
+void AMyPlayerController::ShowUI()
+{
+	bShowMouseCursor = true;
+}
+
+void AMyPlayerController::HideUI()
+{
+	bShowMouseCursor = false;
+}

@@ -28,17 +28,17 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AddItem(AMyItem* itemAddress, int32 itemId, FMyItemType type);
-	FMyItemInfo DropItem(class AMyPlayer* player);
-	FMyItemInfo DropItem(int32 index);
+	void AddItem(AMyItem* itemAddress);
+	AMyItem* DropItem(class AMyPlayer* player);
+	AMyItem* DropItem(int32 index, class AMyPlayer* player);
 
 	FItemAdd itemAddEvent;
 	FItemDrop itemDropEvent;
 
+	FMyItemInfo GetItemInfoByIndex(int32 index);
 	bool IsInventoryFull();
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item", meta = (AllowPrivateAccess = "true"))
-	TArray<FMyItemInfo> _items; 
-		
+	TArray<AMyItem*> _items;
 };

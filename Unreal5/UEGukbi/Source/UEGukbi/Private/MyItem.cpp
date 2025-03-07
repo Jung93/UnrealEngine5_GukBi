@@ -36,8 +36,6 @@ void AMyItem::BeginPlay()
 {
 	Super::BeginPlay();
 
-	_info.item = this;
-
 }
 
 // Called every frame
