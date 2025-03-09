@@ -58,7 +58,7 @@ void UMyInventoryComponent::AddItem(AMyItem* itemAddress)
 	itemAddEvent.Broadcast(targetIndex, itemAddress->GetItemInfo());
 }
 
-AMyItem* UMyInventoryComponent::DropItem(AMyPlayer* player)
+AMyItem* UMyInventoryComponent::DropItem()
 {
 
 	auto targetIndex = _items.FindLastByPredicate([](AMyItem* item)-> bool
@@ -74,21 +74,12 @@ AMyItem* UMyInventoryComponent::DropItem(AMyPlayer* player)
 
 	AMyItem* dropItem = _items[targetIndex];
 
-	dropItem->SetActorHiddenInGame(false);
-	dropItem->SetActorEnableCollision(true);
-
-	FVector location = player->GetLocation();
-	FVector randomLocation = FVector(FMath::RandRange(-100.0f, 200.0f), FMath::RandRange(-250.0f, 200.0f), 0.0f);
-
-	dropItem->SetActorLocation(location + randomLocation);
-	itemDropEvent.Broadcast(targetIndex);
-
 	_items[targetIndex] = nullptr;
 
 	return dropItem;
 }
 
-AMyItem* UMyInventoryComponent::DropItem(int32 index, AMyPlayer* player)
+AMyItem* UMyInventoryComponent::DropItem(int32 index)
 {
 	if (index >= _items.Num() || index < 0)
 		return nullptr;
@@ -98,17 +89,38 @@ AMyItem* UMyInventoryComponent::DropItem(int32 index, AMyPlayer* player)
 
 	AMyItem* dropItem = _items[index];
 
-	dropItem->SetActorHiddenInGame(false);
-	dropItem->SetActorEnableCollision(true);
-
-	FVector location = player->GetLocation();
-	FVector randomLocation = FVector(FMath::RandRange(-100.0f, 200.0f), FMath::RandRange(-250.0f, 200.0f), 0.0f);
-
-	dropItem->SetActorLocation(location + randomLocation);
-	itemDropEvent.Broadcast(index);
 
 	_items[index] = nullptr;
 	return dropItem;
+}
+
+AMyItem* UMyInventoryComponent::UseItem(int32 index)
+{
+	if (index >= _items.Num() || index < 0)
+		return nullptr;
+
+	if (_items[index] == nullptr)
+		return nullptr;
+
+	AMyItem* usedItem = _items[index];
+
+	_items[index] = nullptr;
+	return usedItem;
+}
+
+int32 UMyInventoryComponent::GetLastItemIndex()
+{
+	auto targetIndex = _items.FindLastByPredicate([](AMyItem* item)-> bool
+		{
+			if (item == nullptr)
+				return false;
+			return true;
+		});
+
+	if (targetIndex == INDEX_NONE)
+		return 0;
+
+	return targetIndex;
 }
 
 FMyItemInfo UMyInventoryComponent::GetItemInfoByIndex(int32 index)

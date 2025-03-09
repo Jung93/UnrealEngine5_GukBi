@@ -21,9 +21,12 @@ public:
 
 	void SetItem_Index(int32 index, FMyItemInfo info);
 	void DropItem(int32 index);
+	void UseItem(int32 index);
 
 	UFUNCTION()
 	void SetTextBlock();
+
+	void InitCurIndex() { _curIndex = -1; }
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
@@ -31,6 +34,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UButton* Drop;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+	class UButton* Use;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	class UTextBlock* ItemInfoText;

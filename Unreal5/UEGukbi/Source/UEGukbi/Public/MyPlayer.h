@@ -48,6 +48,9 @@ public:
 	UFUNCTION()
 	void Drop();
 
+	UFUNCTION()
+	void Use();
+
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))

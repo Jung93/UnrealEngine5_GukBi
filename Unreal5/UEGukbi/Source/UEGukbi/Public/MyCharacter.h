@@ -38,6 +38,7 @@ public:
 
 	void AddHp(float amount);
 	void AddExp(int32 amount);
+	void AttackBuff(float amount);
 
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 

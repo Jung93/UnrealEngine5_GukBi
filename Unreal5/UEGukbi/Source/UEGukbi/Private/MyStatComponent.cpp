@@ -119,3 +119,8 @@ void UMyStatComponent::LevelUp()
 	}
 }
 
+void UMyStatComponent::AttackBuff(float amount)
+{
+	_atk += amount;
+}
+

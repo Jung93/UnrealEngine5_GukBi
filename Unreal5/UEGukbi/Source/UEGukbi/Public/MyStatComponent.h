@@ -49,6 +49,7 @@ public:
 	void AddCurExp(int32 exp);
 	void LevelUp();
 	float GetSpeed() { return _speed; }
+	void AttackBuff(float amount);
 
 	bool IsDead() { return _curHp <= 0; }
 

@@ -146,6 +146,11 @@ void AMyCharacter::AddExp(int32 amount)
 	_statComponent->AddCurExp(amount);
 }
 
+void AMyCharacter::AttackBuff(float amount)
+{
+	_statComponent->AttackBuff(amount);
+}
+
 bool AMyCharacter::IsDead()
 {
 	return _statComponent->IsDead();

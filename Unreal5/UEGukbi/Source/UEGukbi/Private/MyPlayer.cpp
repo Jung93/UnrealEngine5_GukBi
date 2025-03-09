@@ -60,8 +60,8 @@ void AMyPlayer::PostInitializeComponents()
 	{
 		inventoryUI->_inventoryComponent = _inventoryComponent;
 		_inventoryComponent->itemAddEvent.AddUObject(inventoryUI, &UMyInventoryUI::SetItem_Index);
-		_inventoryComponent->itemDropEvent.AddUObject(inventoryUI, &UMyInventoryUI::DropItem);
 		inventoryUI->Drop->OnClicked.AddDynamic(this, &AMyPlayer::Drop);
+		inventoryUI->Use->OnClicked.AddDynamic(this, &AMyPlayer::Use);
 	}
 }
 
@@ -155,11 +155,30 @@ void AMyPlayer::DropItem(const FInputActionValue& value)
 		return;
 
 	bool isPress = value.Get<bool>();
+	auto invenUI = Cast<UMyInventoryUI>(_inventoryWidget);
 
 	if (isPress && _inventoryComponent)
 	{
-		auto itemInfo = _inventoryComponent->DropItem(this);
+		int32 index = _inventoryComponent->GetLastItemIndex();
+		auto item = _inventoryComponent->DropItem();
 
+		if (item == nullptr || invenUI == nullptr)
+			return;
+
+
+
+		invenUI->SetItem_Index(index, FMyItemInfo());
+
+		FVector playerLocation = GetActorLocation();
+
+		float dropRadius = 200.0f;
+		FVector randomOffset = FMath::VRand() * FMath::FRandRange(100.0f, dropRadius);
+		FVector dropLocation = playerLocation + randomOffset;
+		dropLocation.Z = 40.0f;
+
+		item->SetActorLocation(dropLocation);
+		item->SetActorHiddenInGame(false);
+		item->SetActorEnableCollision(true);
 	}
 
 }
@@ -206,12 +225,53 @@ bool AMyPlayer::AddItem(AMyItem* item)
 
 void AMyPlayer::Drop()
 {
-
 	int32 curDropIndex = -1;
 	auto invenUI = Cast<UMyInventoryUI>(_inventoryWidget);
 	if (invenUI)
 		curDropIndex = invenUI->_curIndex;
 
-	_inventoryComponent->DropItem(curDropIndex, this);
-	invenUI->_curIndex = -1;
+	auto item = _inventoryComponent->DropItem(curDropIndex);
+	invenUI->InitCurIndex();
+
+	if (item == nullptr)
+		return;
+
+	invenUI->SetItem_Index(curDropIndex, FMyItemInfo());
+
+	FVector playerLocation = GetActorLocation();
+
+	float dropRadius = 200.0f;
+	FVector randomOffset = FMath::VRand() * FMath::FRandRange(100.0f, dropRadius);
+	FVector dropLocation = playerLocation + randomOffset;
+	dropLocation.Z = 40.0f;
+
+	item->SetActorLocation(dropLocation);
+	item->SetActorHiddenInGame(false);
+	item->SetActorEnableCollision(true);
+}
+
+void AMyPlayer::Use()
+{
+	int32 curDropIndex = -1;
+	auto invenUI = Cast<UMyInventoryUI>(_inventoryWidget);
+	if (invenUI)
+		curDropIndex = invenUI->_curIndex;
+
+	auto item = _inventoryComponent->UseItem(curDropIndex);
+
+	if (item == nullptr)
+		return;
+
+	invenUI->SetItem_Index(curDropIndex, FMyItemInfo());
+
+	invenUI->InitCurIndex();
+
+	if (item->GetItemInfo().type == FMyItemType::POTION)
+	{
+		AddHp(50.0f);
+	}
+	else if (item->GetItemInfo().type == FMyItemType::BUFF)
+	{
+		AttackBuff(20.0f);
+	}
 }

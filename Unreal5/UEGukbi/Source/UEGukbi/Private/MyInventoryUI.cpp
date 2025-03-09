@@ -52,6 +52,13 @@ bool UMyInventoryUI::Initialize()
 
 void UMyInventoryUI::SetItem_Index(int32 index, FMyItemInfo info)
 {
+	if (info.itemId == -1 && info.type == FMyItemType::NONE)
+	{
+		_slotImages[index]->SetBrushFromTexture(_defaultTexture);
+		ItemInfoText->SetText(FText::FromString(TEXT("ItemType :  \nItemID : ")));
+		_infoImage->SetBrushFromTexture(_defaultTexture);
+
+	}
 	if(info.itemId == 1 && info.type == FMyItemType::POTION)
 		_slotImages[index]->SetBrushFromTexture(_potionTexture);
 	if (info.itemId == 2 && info.type == FMyItemType::BUFF)
@@ -62,9 +69,14 @@ void UMyInventoryUI::SetItem_Index(int32 index, FMyItemInfo info)
 
 void UMyInventoryUI::DropItem(int32 index)
 {
-	UTexture2D* dropItem = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Graphics/UI/Items/Tex_Default.Tex_Default'"));
+	_slotImages[index]->SetBrushFromTexture(_defaultTexture);
+	ItemInfoText->SetText(FText::FromString(TEXT("ItemType :  \nItemID : ")));
+	_infoImage->SetBrushFromTexture(_defaultTexture);
+}
 
-	_slotImages[index]->SetBrushFromTexture(dropItem);
+void UMyInventoryUI::UseItem(int32 index)
+{
+	_slotImages[index]->SetBrushFromTexture(_defaultTexture);
 	ItemInfoText->SetText(FText::FromString(TEXT("ItemType :  \nItemID : ")));
 	_infoImage->SetBrushFromTexture(_defaultTexture);
 }

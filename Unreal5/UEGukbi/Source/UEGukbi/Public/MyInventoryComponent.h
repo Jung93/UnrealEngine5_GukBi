@@ -29,11 +29,12 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void AddItem(AMyItem* itemAddress);
-	AMyItem* DropItem(class AMyPlayer* player);
-	AMyItem* DropItem(int32 index, class AMyPlayer* player);
+	AMyItem* DropItem();
+	AMyItem* DropItem(int32 index);
+	AMyItem* UseItem(int32 index);
+	int32 GetLastItemIndex();
 
 	FItemAdd itemAddEvent;
-	FItemDrop itemDropEvent;
 
 	FMyItemInfo GetItemInfoByIndex(int32 index);
 	bool IsInventoryFull();
