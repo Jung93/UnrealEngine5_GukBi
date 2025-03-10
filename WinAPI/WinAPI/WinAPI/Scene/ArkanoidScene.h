@@ -15,5 +15,7 @@ private:
 	shared_ptr<Arkanoid> _arkanoid;
 	shared_ptr<ArkanoidPlayer> _player;
 
+	shared_ptr<class ArkanoidHpBar> _ui_hpBar;
+
 };
 
