@@ -67,17 +67,19 @@ void AMyCharacter::AttackEnd(UAnimMontage* Montage, bool bInterrupted)
 
 void AMyCharacter::Attack_Hit()
 {
+	if (IsDead())
+		return;
+
 	FHitResult hitResult;
 	FCollisionQueryParams params(NAME_None, false, this);
 
-	float attackRange = 800.0f;
 	float radius = 100.0f;
 
 	FQuat Rotation = FQuat::FindBetweenVectors(FVector(0, 0, 1), GetActorForwardVector());
 
-	FVector center = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
-	FVector start = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
-	FVector end = GetActorLocation() + GetActorForwardVector() * (attackRange * 0.5f);
+	FVector center = GetActorLocation() + GetActorForwardVector() * (_attackRange * 0.5f);
+	FVector start = GetActorLocation() + GetActorForwardVector() * (_attackRange * 0.5f);
+	FVector end = GetActorLocation() + GetActorForwardVector() * (_attackRange * 0.5f);
 
 	bool bResult = GetWorld()->SweepSingleByChannel
 	(
@@ -86,7 +88,7 @@ void AMyCharacter::Attack_Hit()
 		end,
 		Rotation,
 		ECC_GameTraceChannel2,
-		FCollisionShape::MakeCapsule(radius, attackRange * 0.5f),
+		FCollisionShape::MakeCapsule(radius, _attackRange * 0.5f),
 		params
 	);
 
@@ -107,13 +109,14 @@ void AMyCharacter::Attack_Hit()
 
 	}
 
-	DrawDebugCapsule(GetWorld(), center, attackRange *0.5f, radius, Rotation, drawColor, false, 1.0f);
+	DrawDebugCapsule(GetWorld(), center, _attackRange *0.5f, radius, Rotation, drawColor, false, 1.0f);
 }
 
 void AMyCharacter::DeadEvent()
 {
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
+	Controller->UnPossess();
 }
 
 float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

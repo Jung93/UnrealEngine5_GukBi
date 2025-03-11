@@ -43,9 +43,9 @@ public:
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	bool IsDead();
+	bool IsAttacking() { return _isAttack; }
 
-
-
+	float AttackRange() { return _attackRange; }
 
 	//언리얼의 핵심구조
 	//1. 상속
@@ -72,5 +72,8 @@ protected:
 
 	float _vertical = 0.0f;
 	float _horizontal = 0.0f;
+
+	UPROPERTY(EditAnywhere)
+	float _attackRange = 200.0f;
 
 };

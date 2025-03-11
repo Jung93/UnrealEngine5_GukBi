@@ -42,6 +42,15 @@
     <Filter Include="Source\UEGukbi\Private">
       <UniqueIdentifier>{28ACBD98-F679-317A-94CE-C03F79AFC24F}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\BT_Deco_AttackableCheck.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\BT_Service_FindTarget.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\BT_Task_Attack.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\BT_Task_FindRandomPos.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
@@ -99,6 +108,15 @@
     <Filter Include="Source\UEGukbi\Public">
       <UniqueIdentifier>{BAE1499B-6A91-3272-9A55-BD7ABEF38973}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\BT_Deco_AttackableCheck.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\BT_Service_FindTarget.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\BT_Task_Attack.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\BT_Task_FindRandomPos.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>

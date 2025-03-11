@@ -11,6 +11,7 @@
  */
 
 
+
 UCLASS()
 class UEGUKBI_API AMyMonster : public AMyCharacter
 {
@@ -33,6 +34,9 @@ public:
 	void SpawnItem();
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+	void Attack_AI();
+
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
@@ -42,6 +46,9 @@ private:
 	int32 _monsterExp;
 	//UPROPERTY(EditAnywhere, Category = "Item")
 	//TSubclassOf<class AMyItem> _item;
+
+
+
 
 
 

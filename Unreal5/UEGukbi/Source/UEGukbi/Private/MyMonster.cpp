@@ -89,6 +89,21 @@ float AMyMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACon
 	return Damage;
 }
 
+void AMyMonster::Attack_AI()
+{
+	if (_isAttack)
+		return;
+
+
+	_isAttack = true;
+
+	_curAttackSection = (_curAttackSection) % 2 + 1;
+
+	_animInstance->PlayAnimMontage();
+	_animInstance->JumpToSection(_curAttackSection);
+
+}
+
 //void AMyMonster::SpawnItem()
 //{
 //
