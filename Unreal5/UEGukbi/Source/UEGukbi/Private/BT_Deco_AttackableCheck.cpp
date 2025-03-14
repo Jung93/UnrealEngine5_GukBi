@@ -22,6 +22,7 @@ bool UBT_Deco_AttackableCheck::CalculateRawConditionValue(UBehaviorTreeComponent
 	if (!curPawn->IsValidLowLevel() || !player->IsValidLowLevel())
 		return false;
 
+
 	float distance = player->GetDistanceTo(curPawn);
 
 	if (distance < curPawn->AttackRange())

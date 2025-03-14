@@ -91,7 +91,7 @@ float AMyMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACon
 
 void AMyMonster::Attack_AI()
 {
-	if (_isAttack)
+	if (_isAttack || IsDead())
 		return;
 
 

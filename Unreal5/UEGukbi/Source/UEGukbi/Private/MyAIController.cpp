@@ -10,7 +10,6 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-
 AMyAIController::AMyAIController()
 {
 }

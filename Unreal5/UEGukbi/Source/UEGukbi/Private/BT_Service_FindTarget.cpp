@@ -8,6 +8,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 
 #include "MyPlayer.h"
+#include "MyMonster.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/OverlapResult.h"
 
@@ -18,6 +19,9 @@ void UBT_Service_FindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 	auto curPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (curPawn->IsValidLowLevel() == false)
 		return;
+
+
+
 
 	FVector pos = curPawn->GetActorLocation();
 	float sphereRaidus = 700.0f;
