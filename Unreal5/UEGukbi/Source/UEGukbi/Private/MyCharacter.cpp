@@ -13,7 +13,10 @@
 #include "MyStatComponent.h"
 #include "Components/WidgetComponent.h"
 
+#include "MyGameInstance.h"
+
 #include "MyEffect.h"
+
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -107,7 +110,9 @@ void AMyCharacter::Attack_Hit()
 			FDamageEvent damageEvent = FDamageEvent();
 
 			FVector hitpoint = hitResult.ImpactPoint;
-			GetWorld()->SpawnActor<AMyEffect>(hitpoint, FRotator::ZeroRotator);
+			//GetWorld()->SpawnActor<AMyEffect>(hitpoint, FRotator::ZeroRotator);
+
+			EFFECT_M->PlayEffect("BigFire", hitpoint);
 
 			victim->TakeDamage(_statComponent->GetAtk(), damageEvent, GetController(), this);
 		}

@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyEffect.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyEffectManager.cpp">
+      <Filter>Source\UEGukbi\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameInstance.cpp">
       <Filter>Source\UEGukbi\Private</Filter>
     </ClCompile>
@@ -142,6 +145,9 @@
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyEffect.h">
+      <Filter>Source\UEGukbi\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyEffectManager.h">
       <Filter>Source\UEGukbi\Public</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameInstance.h">

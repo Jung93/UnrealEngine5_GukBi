@@ -5,9 +5,10 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "MyStatComponent.h"
-
+#include "MyEffectManager.h"
 #include "MyGameInstance.generated.h"
 
+#define EFFECT_M Cast<UMyGameInstance>(GetGameInstance())->GetEffectManager()
 /**
  * 
  */
@@ -23,10 +24,14 @@ public:
 
 	FMyStatData GetStat_Level(int32 level);
 	int32 GetTableSize() { return _statTable->GetRowMap().Num(); }
+	AMyEffectManager* GetEffectManager() {return _effectManager;}
+
 
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
 
+	UPROPERTY()
+	class AMyEffectManager* _effectManager;
 
 };

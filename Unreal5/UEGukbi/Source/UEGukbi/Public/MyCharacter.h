@@ -65,8 +65,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	bool _isAttack;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
-	//class UWidgetComponent* _hpBarWidget;
 
 	int32 _curAttackSection = 1;
 
@@ -76,4 +74,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float _attackRange = 400.0f;
 
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	//class UWidgetComponent* _hpBarWidget;
 };

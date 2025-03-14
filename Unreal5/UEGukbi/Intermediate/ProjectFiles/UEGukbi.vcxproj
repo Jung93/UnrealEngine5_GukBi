@@ -292,6 +292,9 @@
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyEffect.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UEGukbi\Private\MyEffectManager.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\UEGukbi\Private\MyGameInstance.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -341,6 +344,7 @@
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyButton.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyCharacter.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyEffect.h"/>
+    <ClInclude Include="..\..\Source\UEGukbi\Public\MyEffectManager.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameInstance.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyGameModeBase.h"/>
     <ClInclude Include="..\..\Source\UEGukbi\Public\MyHpBar.h"/>
